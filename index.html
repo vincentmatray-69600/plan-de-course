@@ -1,0 +1,477 @@
+<title>Veni Vici 52 km 2026</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Big+Shoulders+Display:wght@600;800&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap">
+<style>
+/* Layout : feuille de route de dossard — bandeau dossard, profil pleine largeur, puis tronçons en colonnes empilées */
+:root{
+  --bg:#f3f2ee; --surface:#ffffff; --sunk:#e8e7e1; --line:#d4d2c9;
+  --ink:#1f2a24; --ink-2:#4b564f; --ink-3:#77817a;
+  --garrigue:#3d5a45; --garrigue-soft:#dfe7df;
+  --ochre:#c98a12; --ochre-soft:#f6e7c4;
+  --good:#2f7a4a; --warn:#b26a00; --crit:#b2382c;
+  --font-display:"Big Shoulders Display","Arial Narrow",Impact,sans-serif;
+  --font-body:"IBM Plex Sans",system-ui,-apple-system,"Segoe UI",sans-serif;
+  --font-mono:"IBM Plex Mono",ui-monospace,Menlo,Consolas,monospace;
+  --r:6px;
+}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){
+  --bg:#141916; --surface:#1c231f; --sunk:#232b26; --line:#34403a;
+  --ink:#e9ece6; --ink-2:#b7c0b8; --ink-3:#86918a;
+  --garrigue:#8fb79a; --garrigue-soft:#25332a;
+  --ochre:#e7a935; --ochre-soft:#3a2f17;
+  --good:#6cc28a; --warn:#e8a03c; --crit:#ef7b6e; color-scheme:dark}}
+:root[data-theme="dark"]{
+  --bg:#141916; --surface:#1c231f; --sunk:#232b26; --line:#34403a;
+  --ink:#e9ece6; --ink-2:#b7c0b8; --ink-3:#86918a;
+  --garrigue:#8fb79a; --garrigue-soft:#25332a;
+  --ochre:#e7a935; --ochre-soft:#3a2f17;
+  --good:#6cc28a; --warn:#e8a03c; --crit:#ef7b6e; color-scheme:dark}
+
+*{box-sizing:border-box}
+body{background:var(--bg);color:var(--ink);font-family:var(--font-body);font-size:15px;line-height:1.55;margin:0}
+.wrap{max-width:1080px;margin:0 auto;padding-inline:20px;padding-block:28px 64px;display:grid;gap:44px}
+h1,h2,h3{font-family:var(--font-display);text-wrap:balance;margin:0;line-height:1.02}
+h2{font-size:2rem;font-weight:800;letter-spacing:.01em;text-transform:uppercase}
+h3{font-size:1.35rem;font-weight:600;letter-spacing:.02em}
+p{margin:0;max-width:68ch}
+.eyebrow{font-family:var(--font-mono);font-size:.72rem;letter-spacing:.12em;text-transform:uppercase;color:var(--ink-3)}
+.num{font-variant-numeric:tabular-nums;font-family:var(--font-mono)}
+.muted{color:var(--ink-3)}
+section{display:grid;gap:18px;min-width:0}
+.sec-head{display:flex;flex-wrap:wrap;align-items:baseline;justify-content:space-between;gap:8px 20px}
+.sec-head p{color:var(--ink-2)}
+
+/* Dossard */
+.bib{background:var(--surface);border:2px solid var(--ink);border-radius:var(--r);overflow:hidden;display:grid}
+.bib-top{display:flex;justify-content:space-between;flex-wrap:wrap;gap:6px 16px;padding:10px 18px;background:var(--ink);color:var(--bg);font-family:var(--font-mono);font-size:.75rem;letter-spacing:.1em;text-transform:uppercase}
+.bib-main{display:grid;grid-template-columns:minmax(0,1.4fr) minmax(0,1fr);gap:24px;padding:22px 18px 18px;align-items:end}
+.bib h1{font-size:clamp(3rem,9vw,5.6rem);font-weight:800;text-transform:uppercase;letter-spacing:-.005em}
+.bib h1 span{color:var(--ochre)}
+.bib .route{font-size:1.05rem;color:var(--ink-2);margin-top:8px}
+.kpis{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:1px;background:var(--line);border:1px solid var(--line);border-radius:var(--r);overflow:hidden}
+.kpi{background:var(--surface);padding:10px 12px;display:grid;gap:2px}
+.kpi b{font-family:var(--font-display);font-size:1.9rem;font-weight:800;line-height:1}
+.kpi span{font-size:.75rem;color:var(--ink-3)}
+.bib-foot{border-top:1px dashed var(--line);padding:10px 18px;display:flex;flex-wrap:wrap;gap:6px 18px;font-size:.85rem;color:var(--ink-2)}
+.pill{display:inline-flex;align-items:center;gap:6px;padding:2px 9px;border-radius:999px;font-size:.78rem;font-weight:500;background:var(--sunk);color:var(--ink-2)}
+.pill.ochre{background:var(--ochre-soft);color:var(--ink)}
+.pill.good{background:var(--garrigue-soft);color:var(--good)}
+.pill.warn{background:var(--ochre-soft);color:var(--warn)}
+
+/* Scénario */
+.seg-ctl{display:inline-flex;border:1px solid var(--line);border-radius:999px;padding:3px;background:var(--surface);gap:2px;flex-wrap:wrap}
+.seg-ctl button{font:500 .85rem var(--font-body);border:0;background:none;color:var(--ink-2);padding:6px 14px;border-radius:999px;cursor:pointer}
+.seg-ctl button[aria-pressed="true"]{background:var(--ink);color:var(--bg)}
+.seg-ctl button:focus-visible,button:focus-visible,input:focus-visible{outline:2px solid var(--ochre);outline-offset:2px}
+
+/* Profil */
+.chart-box{background:var(--surface);border:1px solid var(--line);border-radius:var(--r);padding:14px 10px 8px;position:relative;min-width:0}
+.chart-scroll{overflow-x:auto}
+svg text{font-family:var(--font-mono);fill:var(--ink-3)}
+.tip{position:absolute;pointer-events:none;background:var(--ink);color:var(--bg);font:500 .78rem/1.4 var(--font-mono);padding:7px 9px;border-radius:4px;white-space:nowrap;transform:translate(-50%,-100%);display:none;z-index:2}
+.legend{display:flex;flex-wrap:wrap;gap:6px 18px;font-size:.8rem;color:var(--ink-2);padding:6px 8px 0}
+.legend i{display:inline-block;width:10px;height:10px;border-radius:50%;margin-right:6px;vertical-align:-1px}
+
+/* Prévision */
+.forecast{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px}
+.fc{background:var(--surface);border:1px solid var(--line);border-radius:var(--r);padding:14px;display:grid;gap:6px;align-content:start;cursor:pointer;text-align:left;font:inherit;color:inherit}
+.fc[aria-pressed="true"]{border-color:var(--ink);box-shadow:inset 0 0 0 1px var(--ink)}
+.fc .t{font-family:var(--font-display);font-size:2.6rem;font-weight:800;line-height:1}
+.fc .lab{font-family:var(--font-mono);font-size:.72rem;letter-spacing:.1em;text-transform:uppercase;color:var(--ink-3)}
+.fc p{font-size:.86rem;color:var(--ink-2)}
+.twocol{display:grid;grid-template-columns:minmax(0,1.3fr) minmax(0,1fr);gap:16px}
+.panel{background:var(--surface);border:1px solid var(--line);border-radius:var(--r);padding:16px;display:grid;gap:10px;align-content:start;min-width:0}
+.panel ul{margin:0;padding-left:18px;display:grid;gap:4px;color:var(--ink-2);font-size:.9rem}
+.utmb-row{display:flex;flex-wrap:wrap;gap:8px;align-items:center}
+.utmb-row input{font:500 1.4rem var(--font-mono);width:6.5em;padding:6px 10px;border:1px solid var(--line);border-radius:4px;background:var(--bg);color:var(--ink)}
+.utmb-row label{font-size:.85rem;color:var(--ink-2)}
+
+/* Tables */
+.tbl-wrap{overflow-x:auto;background:var(--surface);border:1px solid var(--line);border-radius:var(--r)}
+table{border-collapse:collapse;width:100%;font-size:.88rem}
+th,td{padding:9px 12px;text-align:left;border-bottom:1px solid var(--line);white-space:nowrap}
+th{font-family:var(--font-mono);font-weight:500;font-size:.7rem;letter-spacing:.08em;text-transform:uppercase;color:var(--ink-3);background:var(--sunk)}
+td.n,th.n{text-align:right;font-variant-numeric:tabular-nums;font-family:var(--font-mono)}
+tr:last-child td{border-bottom:0}
+tr.sel td{background:var(--ochre-soft)}
+
+/* Tronçons */
+.legs{display:grid;gap:14px}
+.leg{background:var(--surface);border:1px solid var(--line);border-radius:var(--r);display:grid;grid-template-columns:150px minmax(0,1fr);overflow:hidden}
+.leg-id{background:var(--garrigue);color:var(--bg);padding:14px;display:grid;align-content:space-between;gap:10px}
+.leg-id .k{font-family:var(--font-display);font-size:2.3rem;font-weight:800;line-height:.95}
+.leg-id .k small{display:block;font-size:.9rem;font-weight:600;opacity:.85;letter-spacing:.04em}
+.leg-id .eyebrow{color:inherit;opacity:.8}
+.leg-body{padding:14px 16px;display:grid;gap:12px;min-width:0}
+.facts{display:flex;flex-wrap:wrap;gap:6px 22px}
+.fact{display:grid}
+.fact b{font-family:var(--font-mono);font-weight:500;font-size:1.05rem;font-variant-numeric:tabular-nums}
+.fact span{font-size:.7rem;color:var(--ink-3);text-transform:uppercase;letter-spacing:.08em;font-family:var(--font-mono)}
+.cue{border-left:3px solid var(--ochre);padding:2px 0 2px 12px;color:var(--ink);font-size:.93rem}
+.intake{display:grid;gap:0;border:1px solid var(--line);border-radius:4px;overflow:hidden}
+.intake-row{display:grid;grid-template-columns:70px 64px minmax(0,1fr) 54px;gap:10px;padding:7px 10px;font-size:.86rem;border-bottom:1px solid var(--line);align-items:baseline}
+.intake-row:last-child{border-bottom:0}
+.intake-row.tot{background:var(--sunk);font-weight:600}
+.intake-row .g{text-align:right;font-family:var(--font-mono);font-variant-numeric:tabular-nums}
+.intake-row .km,.intake-row .tm{font-family:var(--font-mono);font-size:.8rem;color:var(--ink-3);font-variant-numeric:tabular-nums}
+.bar{height:8px;background:var(--sunk);border-radius:4px;position:relative;overflow:visible}
+.bar>i{position:absolute;inset:0 auto 0 0;background:var(--garrigue);border-radius:4px}
+.bar>u{position:absolute;top:-4px;bottom:-4px;width:2px;background:var(--ink)}
+.bar-lab{display:flex;justify-content:space-between;font-size:.78rem;color:var(--ink-3);font-family:var(--font-mono)}
+
+/* Ravitos */
+.ravitos{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px}
+.rav{background:var(--surface);border:1px solid var(--line);border-radius:var(--r);padding:14px;display:grid;gap:8px;align-content:start}
+.rav .hd{display:flex;justify-content:space-between;gap:8px;align-items:baseline}
+.rav ol{margin:0;padding-left:18px;display:grid;gap:3px;font-size:.88rem}
+.rav dl{margin:0;display:grid;gap:6px;font-size:.86rem}
+.rav dt{font-family:var(--font-mono);font-size:.68rem;letter-spacing:.08em;text-transform:uppercase;color:var(--ink-3)}
+.rav dd{margin:0;color:var(--ink-2)}
+
+/* Checklist */
+.check{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px 18px;background:var(--surface);border:1px solid var(--line);border-radius:var(--r);padding:14px 16px}
+.check label{display:flex;gap:10px;align-items:flex-start;font-size:.92rem;cursor:pointer}
+.check input{width:18px;height:18px;accent-color:var(--garrigue);margin-top:2px;flex:none}
+.check input:checked+span{color:var(--ink-3);text-decoration:line-through}
+
+.grid-dec{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:10px}
+.dec{background:var(--surface);border:1px solid var(--line);border-radius:var(--r);padding:12px;display:grid;gap:6px;align-content:start;font-size:.88rem}
+.dec b{font-family:var(--font-display);font-size:1.3rem;font-weight:600}
+.dec .s{font-size:.8rem;color:var(--ink-3)}
+.dec.good{border-top:4px solid var(--good)} .dec.warn{border-top:4px solid var(--warn)} .dec.crit{border-top:4px solid var(--crit)}
+
+.notes{font-size:.82rem;color:var(--ink-3);display:grid;gap:6px;border-top:1px solid var(--line);padding-top:16px}
+.notes a{color:var(--ink-2)}
+
+@media (max-width:820px){
+  .bib-main,.twocol{grid-template-columns:1fr}
+  .forecast,.ravitos{grid-template-columns:1fr}
+  .grid-dec{grid-template-columns:repeat(2,minmax(0,1fr))}
+  .leg{grid-template-columns:1fr}
+  .leg-id{grid-template-columns:auto 1fr;align-items:end}
+  .check{grid-template-columns:1fr}
+}
+@media (max-width:480px){
+  .wrap{padding-inline:16px}
+  .grid-dec{grid-template-columns:1fr}
+  .intake-row{grid-template-columns:52px minmax(0,1fr) 46px}
+  .intake-row .tm{display:none}
+}
+@media (prefers-reduced-motion:no-preference){.fc,.seg-ctl button{transition:background .15s,border-color .15s}}
+</style>
+
+<div class="wrap">
+
+<header class="bib" aria-label="Résumé de course">
+  <div class="bib-top"><span>La Veni Vici · 6e édition</span><span>Samedi 7 novembre 2026 · départ 08h00</span></div>
+  <div class="bib-main">
+    <div>
+      <div class="eyebrow">Répétition générale SaintéLyon · objectif STL 11h</div>
+      <h1>Veni Vici <span>52</span></h1>
+      <p class="route">Pont du Gard → Lédenon → Cabrières → Escattes → Nîmes. Plan de course, nutrition et prévision de temps.</p>
+    </div>
+    <div class="kpis">
+      <div class="kpi"><b class="num-d">52,5 km</b><span>distance</span></div>
+      <div class="kpi"><b>1 040 m</b><span>D+ annoncé · D− 1 035 m</span></div>
+      <div class="kpi"><b id="kpi-time">6h30</b><span id="kpi-time-lab">arrivée prévue (scénario cible)</span></div>
+      <div class="kpi"><b>370 g</b><span>glucides prévus · 59 g/h</span></div>
+    </div>
+  </div>
+  <div class="bib-foot">
+    <span class="pill ochre">Sans caféine</span>
+    <span class="pill">Gobelet / flasque perso obligatoire</span>
+    <span class="pill">Assistance perso autorisée hors ravitos</span>
+    <span class="pill good">Lédenon pas avant 2h15</span>
+  </div>
+</header>
+
+<section id="profil" aria-labelledby="h-profil">
+  <div class="sec-head">
+    <div><div class="eyebrow">Parcours</div><h2 id="h-profil">Profil et passages</h2></div>
+    <div class="seg-ctl" role="group" aria-label="Scénario de prévision" id="scen-ctl">
+      <button type="button" data-s="prudent">Prudent 6h50</button>
+      <button type="button" data-s="cible" aria-pressed="true">Cible 6h30</button>
+      <button type="button" data-s="ambitieux">Ambitieux 6h15</button>
+    </div>
+  </div>
+  <div class="chart-box">
+    <div class="chart-scroll"><svg id="prof" role="img" aria-label="Profil altimétrique de la Veni Vici 52 km avec ravitaillements et prises alimentaires"></svg></div>
+    <div class="tip" id="tip"></div>
+    <div class="legend">
+      <span><i style="background:var(--garrigue)"></i>Altitude (m)</span>
+      <span><i style="background:var(--ink)"></i>Ravitaillement</span>
+      <span><i style="background:var(--ochre)"></i>Prise alimentaire prévue</span>
+      <span class="muted">Survole le profil pour l'heure de passage du scénario choisi.</span>
+    </div>
+  </div>
+  <div class="tbl-wrap">
+    <table id="tbl-pass">
+      <thead><tr><th>Point</th><th class="n">Km</th><th class="n">Prudent</th><th class="n">Cible</th><th class="n">Ambitieux</th><th class="n">Heure (scénario)</th></tr></thead>
+      <tbody></tbody>
+    </table>
+  </div>
+</section>
+
+<section id="prevision" aria-labelledby="h-prev">
+  <div class="sec-head">
+    <div><div class="eyebrow">Prévision</div><h2 id="h-prev">Temps attendu</h2></div>
+    <p>Clique sur un scénario pour mettre à jour le profil et les passages.</p>
+  </div>
+  <div class="forecast" id="fc"></div>
+  <div class="twocol">
+    <div class="panel">
+      <h3>D'où viennent ces chiffres</h3>
+      <ul>
+        <li><b>Référence :</b> ta Veni Vici 2025 (83 km, 2 080 m D+) bouclée en <span class="num">11h28</span>, soit <span class="num">6'41</span> par km-effort (km + D+/100).</li>
+        <li><b>Extrapolation :</b> loi de Riegel (exposant 1,06) appliquée aux km-effort : 102,8 → 62,9 km-effort donne <span class="num">≈ 6h49</span>. C'est le scénario prudent : ta forme de l'an dernier, sur un format plus court.</li>
+        <li><b>Plan :</b> ton fichier vise <span class="num">6h30</span> (6'01 par km-effort en mouvement, 12 min d'arrêts), soit environ 5 % plus vite que 2025.</li>
+        <li><b>Forme 2026 :</b> séances de qualité régulières sur Strava (2×12', 4×6', 3×6' autour de 4'20–4'40/km) et sorties longues de 23 à 35 km. Le volume récent est surtout plat : le premier tronçon (moitié du D+) reste la zone à surveiller.</li>
+      </ul>
+    </div>
+    <div class="panel">
+      <h3>Index UTMB</h3>
+      <p class="muted" style="font-size:.88rem">Je n'ai pas pu récupérer ton index : le site utmb.world est bloqué depuis l'environnement où j'ai construit cette page, et la recherche web ne renvoie aucun profil à ton nom. Saisis-le ici, il reste enregistré dans ton navigateur.</p>
+      <div class="utmb-row">
+        <label for="utmb">Index général</label>
+        <input id="utmb" type="number" inputmode="numeric" min="100" max="1000" placeholder="—">
+        <span class="pill" id="utmb-cat">catégorie 50K</span>
+      </div>
+      <p class="muted" style="font-size:.82rem" id="utmb-note">La prévision ci-contre repose sur tes temps réels, plus fiables pour ce parcours très roulant qu'une conversion depuis l'index.</p>
+    </div>
+  </div>
+</section>
+
+<section id="troncons" aria-labelledby="h-tr">
+  <div class="sec-head">
+    <div><div class="eyebrow">Plan de course · nutrition</div><h2 id="h-tr">Tronçon par tronçon</h2></div>
+    <p>Cible 55–60 g de glucides par heure. Solide tôt, semi-liquide ensuite, Naak Boost pour finir.</p>
+  </div>
+  <div class="legs" id="legs"></div>
+</section>
+
+<section id="ravitos" aria-labelledby="h-rav">
+  <div class="sec-head">
+    <div><div class="eyebrow">Routine &lt; 4 min</div><h2 id="h-rav">Ravitaillements</h2></div>
+    <p>Contenu non publié par l'organisation : c'est le contenu habituel d'un ravito trail, à confirmer auprès de l'organisation.</p>
+  </div>
+  <div class="ravitos" id="rav"></div>
+</section>
+
+<section id="sac" aria-labelledby="h-sac">
+  <div class="sec-head">
+    <div><div class="eyebrow">La veille</div><h2 id="h-sac">À préparer</h2></div>
+    <p>Rien de nouveau le jour J. Les cases cochées restent enregistrées dans ton navigateur.</p>
+  </div>
+  <div class="check" id="check"></div>
+</section>
+
+<section id="decision" aria-labelledby="h-dec">
+  <div class="sec-head">
+    <div><div class="eyebrow">Débrief</div><h2 id="h-dec">Décision SaintéLyon</h2></div>
+    <p>À lire à l'arrivée, avec ton temps final et tes cardios par tronçon.</p>
+  </div>
+  <div class="grid-dec">
+    <div class="dec good"><span class="s">≈ 6h30, cardio maîtrisé, dernier tronçon le plus rapide</span><b>Plan STL 11h validé</b></div>
+    <div class="dec warn"><span class="s">≈ 6h30 mais &gt; 160 bpm nécessaires ou souffrance après le km 40</span><b>Partir sur 11h30</b><span>Option 11h décidée à Soucieu.</span></div>
+    <div class="dec warn"><span class="s">&gt; 6h45 à effort contrôlé</span><b>Plan STL 11h30</b></div>
+    <div class="dec crit"><span class="s">&lt; 6h15</span><b>Trop rapide</b><span>Retravailler la gestion d'allure avant la STL.</span></div>
+  </div>
+</section>
+
+<footer class="notes">
+  <p><b>Profil :</b> reconstitué à partir de ta trace Strava de la Veni Vici 2025 (portion Nîmes → Pont du Gard, parcourue dans l'autre sens), recalée sur les kilomètres officiels des ravitos 2026. Altitudes lissées : 976 m de D+ calculés contre 1 040 m annoncés. Le GPX officiel 2026 n'a pas pu être téléchargé (site de l'organisation et Finishers inaccessibles depuis mon environnement). Le tracé 2026 peut différer par endroits, surtout entre le Pont du Gard et Lédenon (18,8 km en 2026 contre 15,4 km sur la trace 2025).</p>
+  <p><b>Plan et nutrition :</b> ton fichier « Veni Vici 2026 – Répétition SaintéLyon (auto) ». Grammes de glucides indicatifs, à vérifier sur les emballages.</p>
+  <p><b>Sources :</b> <a href="https://www.uzes-pontdugard.com/en/?p=16854" target="_blank" rel="noopener">Office de tourisme Uzès–Pont du Gard</a> · <a href="https://werun.world/?p=12657" target="_blank" rel="noopener">werun.world</a> · <a href="https://www.finishers.com/en/event/the-veni-vici" target="_blank" rel="noopener">Finishers – La Veni Vici</a> · contact organisation : info@lavenivici.com</p>
+</footer>
+</div>
+
+<script>
+const PROFILE = [[0.06,38,43.94708,4.53572],[0.2,46,43.94697,4.53658],[0.33,52,43.94646,4.53619],[0.47,59,43.94603,4.53728],[0.61,62,43.94592,4.53801],[0.74,63,43.94672,4.53876],[0.88,63,43.94711,4.53969],[1.01,61,43.94676,4.54052],[1.15,62,43.94615,4.54127],[1.29,62,43.94588,4.54242],[1.42,64,43.94507,4.54303],[1.56,63,43.94502,4.54346],[1.69,62,43.94454,4.5435],[1.83,62,43.94365,4.54288],[1.96,63,43.94276,4.54241],[2.1,69,43.942,4.54311],[2.24,76,43.94234,4.54386],[2.37,77,43.94142,4.54406],[2.51,75,43.94102,4.54465],[2.64,76,43.94018,4.54473],[2.78,86,43.93984,4.54581],[2.91,101,43.93899,4.54578],[3.05,114,43.93809,4.54554],[3.19,120,43.93723,4.54527],[3.32,124,43.93632,4.54512],[3.46,126,43.93533,4.54514],[3.59,120,43.93462,4.54497],[3.73,106,43.93405,4.54407],[3.86,95,43.93337,4.54354],[4.0,88,43.93313,4.54224],[4.14,91,43.93315,4.54093],[4.27,94,43.93273,4.53974],[4.41,90,43.93243,4.53854],[4.54,82,43.93241,4.53759],[4.68,71,43.9316,4.53837],[4.82,60,43.93075,4.53905],[4.95,53,43.92995,4.53988],[5.09,50,43.92926,4.54085],[5.22,48,43.92865,4.54195],[5.36,48,43.92817,4.54317],[5.5,50,43.92789,4.54441],[5.63,56,43.92741,4.54547],[5.76,64,43.92686,4.54643],[5.9,67,43.92635,4.54734],[6.04,67,43.92628,4.54853],[6.17,62,43.92586,4.54913],[6.31,58,43.92519,4.54996],[6.44,55,43.9249,4.55128],[6.58,52,43.92462,4.55259],[6.72,52,43.92419,4.55374],[6.85,65,43.92388,4.55405],[6.99,87,43.92345,4.55333],[7.12,111,43.92318,4.55206],[7.26,129,43.9228,4.5509],[7.39,141,43.92211,4.54997],[7.53,150,43.92139,4.54918],[7.67,159,43.92063,4.54836],[7.8,163,43.92026,4.54726],[7.94,160,43.91984,4.5461],[8.07,155,43.91889,4.5458],[8.21,151,43.91825,4.5448],[8.35,149,43.91801,4.54509],[8.48,148,43.91856,4.546],[8.62,140,43.91868,4.54725],[8.75,125,43.91879,4.54845],[8.89,105,43.91821,4.54903],[9.02,88,43.91759,4.54995],[9.16,76,43.91736,4.55116],[9.29,68,43.91746,4.55237],[9.43,63,43.91767,4.5527],[9.57,62,43.91694,4.55184],[9.7,60,43.91688,4.55052],[9.84,63,43.91675,4.5516],[9.97,68,43.91625,4.55198],[10.11,78,43.91646,4.55096],[10.24,89,43.91584,4.55013],[10.38,100,43.91537,4.54901],[10.52,112,43.91568,4.54784],[10.65,122,43.91592,4.54655],[10.79,130,43.91552,4.54569],[10.93,134,43.91482,4.5451],[11.06,133,43.91413,4.54426],[11.2,130,43.91327,4.54358],[11.33,125,43.91249,4.54276],[11.47,121,43.91167,4.54209],[11.6,116,43.91148,4.54084],[11.74,112,43.91137,4.5395],[11.87,108,43.91142,4.53814],[12.01,106,43.91163,4.53679],[12.15,105,43.91168,4.53547],[12.28,101,43.91244,4.53484],[12.42,100,43.91258,4.53357],[12.55,98,43.91266,4.53222],[12.69,97,43.91264,4.5309],[12.83,95,43.91276,4.52954],[12.96,92,43.9129,4.52818],[13.1,92,43.91312,4.52689],[13.23,92,43.91395,4.52628],[13.37,95,43.9149,4.52632],[13.5,94,43.91558,4.52585],[13.64,92,43.9161,4.52504],[13.78,90,43.91675,4.5253],[13.91,88,43.91729,4.52628],[14.05,92,43.91785,4.52688],[14.18,97,43.91759,4.52551],[14.32,101,43.91823,4.52525],[14.45,101,43.91869,4.52437],[14.59,99,43.91855,4.5231],[14.72,96,43.91843,4.52175],[14.86,97,43.91871,4.52096],[15.0,100,43.91964,4.52095],[15.13,105,43.92046,4.52043],[15.27,111,43.92128,4.51994],[15.4,118,43.92197,4.51903],[15.54,125,43.92283,4.51907],[15.68,131,43.92356,4.51848],[15.81,137,43.92347,4.51755],[15.95,142,43.92277,4.51661],[16.08,148,43.92202,4.51575],[16.22,153,43.92222,4.51483],[16.35,157,43.92179,4.51388],[16.49,159,43.92089,4.51355],[16.63,161,43.92068,4.51233],[16.76,161,43.92043,4.51125],[16.9,158,43.91991,4.51026],[17.03,150,43.91902,4.51075],[17.17,142,43.91876,4.51183],[17.31,137,43.91821,4.51135],[17.44,135,43.91801,4.51002],[17.58,141,43.91754,4.50883],[17.71,149,43.91798,4.50864],[17.85,160,43.91862,4.5083],[17.98,169,43.91929,4.50744],[18.12,172,43.91836,4.50733],[18.26,170,43.91804,4.50749],[18.39,160,43.91799,4.50787],[18.53,147,43.91713,4.50734],[18.66,136,43.91637,4.50794],[18.8,128,43.91547,4.50784],[18.91,126,43.9153,4.50729],[19.02,129,43.9154,4.50682],[19.12,134,43.91635,4.50666],[19.23,145,43.91692,4.50603],[19.34,155,43.91616,4.50585],[19.45,161,43.91547,4.5052],[19.55,162,43.91472,4.50434],[19.66,160,43.91399,4.50387],[19.77,161,43.91354,4.5029],[19.88,161,43.91305,4.50178],[19.99,164,43.91298,4.50046],[20.09,161,43.91248,4.49955],[20.2,164,43.91233,4.49831],[20.31,167,43.91159,4.49752],[20.42,172,43.91121,4.49626],[20.52,176,43.91101,4.49497],[20.63,178,43.9118,4.49412],[20.74,181,43.91252,4.4932],[20.85,182,43.91295,4.49208],[20.96,180,43.91243,4.49105],[21.06,175,43.91169,4.49073],[21.17,167,43.91152,4.49186],[21.28,161,43.91085,4.49264],[21.39,155,43.90996,4.49307],[21.5,149,43.90903,4.49309],[21.6,143,43.90817,4.49345],[21.71,141,43.90719,4.49345],[21.82,145,43.9064,4.49293],[21.93,151,43.90638,4.49197],[22.03,158,43.90715,4.49149],[22.14,161,43.90738,4.49033],[22.25,158,43.90799,4.48938],[22.36,153,43.90806,4.48813],[22.47,145,43.90741,4.48752],[22.58,137,43.9065,4.48711],[22.68,134,43.90557,4.48742],[22.79,134,43.9052,4.48652],[22.9,135,43.90613,4.48605],[23.0,139,43.90704,4.4864],[23.11,142,43.90772,4.48556],[23.22,146,43.90861,4.48499],[23.33,151,43.90944,4.48428],[23.44,156,43.91005,4.48339],[23.55,161,43.91078,4.48322],[23.65,167,43.91166,4.48368],[23.76,175,43.91262,4.48386],[23.87,183,43.91322,4.48436],[23.98,191,43.91412,4.48459],[24.08,196,43.91499,4.48488],[24.19,199,43.91591,4.48522],[24.3,199,43.91609,4.48418],[24.41,199,43.9162,4.48279],[24.52,199,43.916,4.48145],[24.62,199,43.91553,4.48024],[24.73,200,43.91502,4.4791],[24.84,202,43.91447,4.47796],[24.95,202,43.91423,4.47659],[25.05,199,43.91409,4.47531],[25.16,194,43.91368,4.4741],[25.27,186,43.91269,4.47423],[25.38,177,43.91174,4.47395],[25.49,169,43.91103,4.47311],[25.6,162,43.91016,4.47322],[25.7,156,43.90922,4.47318],[25.81,150,43.90843,4.47371],[25.92,145,43.90757,4.47432],[26.03,139,43.90664,4.47483],[26.13,137,43.90581,4.47453],[26.24,137,43.90556,4.47341],[26.35,140,43.90502,4.47262],[26.45,145,43.90524,4.47169],[26.55,152,43.90586,4.47167],[26.65,161,43.90663,4.47175],[26.75,171,43.90664,4.47302],[26.85,179,43.90742,4.47234],[26.94,187,43.90828,4.4717],[27.04,193,43.90888,4.47065],[27.14,198,43.90984,4.4702],[27.24,202,43.91081,4.47018],[27.34,203,43.91179,4.47029],[27.44,204,43.91275,4.47018],[27.53,203,43.91344,4.46938],[27.63,203,43.91382,4.4681],[27.73,203,43.91439,4.46707],[27.83,204,43.91513,4.46613],[27.93,204,43.91595,4.46551],[28.02,204,43.91623,4.46422],[28.12,203,43.91622,4.46288],[28.22,202,43.91527,4.4626],[28.32,198,43.91445,4.46189],[28.42,188,43.9137,4.46136],[28.52,176,43.91308,4.46054],[28.61,169,43.91307,4.45935],[28.71,168,43.91263,4.45824],[28.81,168,43.91249,4.45695],[28.91,166,43.91178,4.45688],[29.01,159,43.91083,4.45725],[29.11,150,43.90982,4.45731],[29.21,143,43.90932,4.45652],[29.31,136,43.90833,4.45641],[29.4,131,43.90736,4.45653],[29.5,131,43.9065,4.45708],[29.6,136,43.90659,4.4557],[29.7,143,43.90646,4.45436],[29.79,151,43.90673,4.45349],[29.89,151,43.90773,4.45349],[29.99,146,43.90834,4.45323],[30.09,145,43.90816,4.45216],[30.19,143,43.90839,4.45094],[30.29,147,43.90864,4.44991],[30.38,147,43.90813,4.44878],[30.48,138,43.90795,4.44744],[30.58,130,43.90747,4.44635],[30.68,121,43.90678,4.44559],[30.78,119,43.90583,4.44565],[30.88,117,43.90493,4.44615],[30.98,116,43.90419,4.44689],[31.07,118,43.90376,4.44607],[31.17,122,43.90314,4.44516],[31.27,127,43.90305,4.44392],[31.37,127,43.90271,4.44266],[31.47,125,43.90189,4.44239],[31.56,122,43.90107,4.44285],[31.66,120,43.90036,4.4438],[31.76,122,43.89938,4.44357],[31.86,126,43.89839,4.4434],[31.96,132,43.89747,4.44298],[32.06,135,43.89667,4.44219],[32.16,137,43.89577,4.44163],[32.25,138,43.89489,4.44101],[32.35,141,43.89401,4.44041],[32.45,144,43.89312,4.43986],[32.55,147,43.89234,4.43914],[32.65,148,43.89166,4.43819],[32.75,146,43.89069,4.43782],[32.84,137,43.89,4.43691],[32.94,126,43.88967,4.43564],[33.04,122,43.88955,4.43432],[33.14,128,43.88961,4.43295],[33.24,144,43.8892,4.43173],[33.34,156,43.88926,4.43034],[33.43,162,43.88895,4.42918],[33.53,163,43.88877,4.42781],[33.63,165,43.88873,4.42645],[33.73,164,43.88843,4.42516],[33.83,163,43.8875,4.425],[33.93,160,43.88694,4.42449],[34.02,156,43.88605,4.42499],[34.12,152,43.88505,4.42512],[34.22,147,43.8841,4.42547],[34.32,142,43.88318,4.42592],[34.42,136,43.88222,4.42606],[34.52,131,43.88125,4.42629],[34.61,126,43.88027,4.42659],[34.71,122,43.87942,4.4261],[34.81,118,43.87846,4.42595],[34.91,113,43.87748,4.42617],[35.01,110,43.87666,4.42663],[35.11,113,43.87638,4.42755],[35.2,117,43.87602,4.4278],[35.3,124,43.87565,4.42663],[35.4,129,43.87588,4.42531],[35.5,130,43.87595,4.42396],[35.6,127,43.87568,4.42288],[35.7,121,43.87562,4.42157],[35.79,113,43.87565,4.42037],[35.89,105,43.87529,4.41911],[35.99,99,43.87475,4.41809],[36.09,97,43.87428,4.41692],[36.19,97,43.87479,4.41623],[36.28,97,43.8746,4.41515],[36.38,99,43.8738,4.41432],[36.48,100,43.8736,4.41309],[36.58,103,43.8743,4.41225],[36.68,106,43.8752,4.4119],[36.78,109,43.87596,4.41271],[36.88,110,43.87635,4.41362],[36.97,112,43.87705,4.41351],[37.07,114,43.8775,4.41257],[37.17,115,43.87672,4.41189],[37.27,114,43.87618,4.41103],[37.37,112,43.87585,4.40975],[37.47,107,43.87556,4.40848],[37.56,102,43.87507,4.40742],[37.66,97,43.87411,4.40747],[37.76,93,43.87384,4.40709],[37.86,91,43.87439,4.40616],[37.96,92,43.87364,4.40589],[38.05,96,43.87266,4.40594],[38.15,104,43.87238,4.40499],[38.25,114,43.87209,4.40409],[38.35,120,43.87226,4.40311],[38.45,123,43.87195,4.40198],[38.56,119,43.8722,4.40126],[38.69,117,43.87203,4.39989],[38.82,120,43.87188,4.39864],[38.95,130,43.87196,4.39757],[39.08,139,43.87291,4.39709],[39.2,144,43.87384,4.39675],[39.33,144,43.87449,4.39582],[39.46,143,43.87479,4.39452],[39.59,143,43.87459,4.39318],[39.72,140,43.87411,4.392],[39.85,134,43.87416,4.39067],[39.97,132,43.87389,4.38952],[40.1,134,43.87367,4.38829],[40.23,138,43.87315,4.38738],[40.36,136,43.87295,4.38605],[40.49,132,43.87235,4.38495],[40.62,132,43.87205,4.38387],[40.75,135,43.87143,4.38284],[40.87,139,43.87111,4.38158],[41.0,140,43.87027,4.38092],[41.13,138,43.86928,4.38069],[41.26,135,43.86835,4.38017],[41.39,131,43.86744,4.37967],[41.52,125,43.86648,4.37925],[41.64,117,43.86552,4.37916],[41.77,108,43.86459,4.37873],[41.9,99,43.86373,4.37804],[42.03,94,43.86312,4.37714],[42.16,94,43.86331,4.37634],[42.29,97,43.86424,4.37606],[42.42,104,43.86497,4.37518],[42.54,110,43.86567,4.37476],[42.67,115,43.86639,4.37384],[42.8,122,43.86718,4.37299],[42.93,128,43.86788,4.37209],[43.06,130,43.86872,4.37138],[43.19,131,43.86954,4.37069],[43.31,132,43.87016,4.36991],[43.44,137,43.86982,4.36863],[43.57,145,43.8697,4.36727],[43.7,148,43.86954,4.36588],[43.83,151,43.86933,4.36506],[43.96,152,43.87007,4.3646],[44.08,152,43.8702,4.36324],[44.21,154,43.87002,4.36188],[44.34,155,43.86991,4.36052],[44.47,157,43.87009,4.35918],[44.6,160,43.87019,4.3579],[44.73,162,43.86991,4.35659],[44.86,165,43.86963,4.35537],[44.98,168,43.87042,4.35509],[45.11,170,43.87047,4.35395],[45.24,169,43.87013,4.35279],[45.37,165,43.86921,4.3526],[45.5,160,43.86836,4.35332],[45.63,155,43.86749,4.35394],[45.76,151,43.86663,4.35468],[45.88,146,43.86592,4.35554],[46.01,140,43.86494,4.35585],[46.14,135,43.86406,4.35615],[46.27,131,43.8631,4.35638],[46.4,129,43.86211,4.35632],[46.53,129,43.86228,4.35521],[46.65,127,43.86286,4.35422],[46.78,125,43.86194,4.35461],[46.91,122,43.86114,4.35415],[47.04,118,43.8605,4.35314],[47.17,115,43.85974,4.35227],[47.3,111,43.85883,4.35199],[47.43,108,43.85794,4.35255],[47.55,106,43.85701,4.35294],[47.68,103,43.85603,4.35287],[47.81,101,43.85505,4.35247],[47.94,101,43.85409,4.35229],[48.07,102,43.85314,4.35211],[48.2,103,43.85227,4.35271],[48.33,100,43.8513,4.35308],[48.45,94,43.85034,4.35318],[48.58,89,43.84936,4.3534],[48.71,87,43.84852,4.35393],[48.84,90,43.84842,4.35492],[48.97,96,43.84772,4.35456],[49.1,102,43.84689,4.35469],[49.22,106,43.84655,4.35343],[49.35,108,43.84676,4.3521],[49.48,107,43.84709,4.35084],[49.61,105,43.84718,4.34961],[49.74,105,43.84622,4.34922],[49.86,108,43.8453,4.34872],[49.99,111,43.84432,4.34888],[50.12,112,43.84339,4.34937],[50.25,109,43.84266,4.34927],[50.38,102,43.84199,4.34863],[50.51,93,43.8415,4.34901],[50.64,83,43.84124,4.34975],[50.77,73,43.84074,4.35041],[50.89,65,43.84067,4.34939],[51.02,60,43.83993,4.35018],[51.15,57,43.83925,4.35114],[51.28,56,43.83902,4.35244],[51.41,55,43.83924,4.35378],[51.54,53,43.83941,4.35512],[51.67,52,43.83881,4.35601],[51.79,51,43.83793,4.35626],[51.92,49,43.83709,4.357],[52.05,47,43.83711,4.35806],[52.18,46,43.83624,4.35875],[52.31,44,43.83546,4.35952],[52.5,43,43.83509,4.36]]; // [km, alt, lat, lon]
+const START_MIN = 8*60;
+
+// Tronçons du plan (allures en mouvement), arrêts de 4 min aux ravitos
+const LEGS = [
+  {id:"Départ → R1", to:"Lédenon", from:0, end:18.8, dp:518, dm:448, pace:7+40/60, stop:4, hr:"< 150 plat · < 160 montée",
+   cue:"Ne pas arriver à Lédenon avant 2h15. Moitié du D+ ici : marcher dès que ça monte. 18,8 km sans ravito, partir avec 1 à 1,5 L.",
+   hyd:"1 à 1,5 L au départ : flasque 1 boisson, flasque 2 eau (environ 500 ml/h).",
+   note:"Plus long tronçon sans ravito et le plus de D+ : ne saute aucune prise.",
+   food:[["continu","Boisson Naak 50 g (flasque 1, 500 ml), gorgées toutes les 10–15 min jusqu'au km 18",50],[6,"Gaufre Naak",20],[9,"Gel Naak 30 g, dans la montée km 8–10",30],[14.5,"Barre cajou-sel (partie plate)",20],[17,"Barre Decathlon",10]]},
+  {id:"R1 → R2", to:"Carrières", from:18.8, end:26.4, dp:135, dm:123, pace:7+5/60, stop:4, hr:"< 150 plat · < 160 montée",
+   cue:"Tronçon roulant : rester relâché, ne pas rattraper de temps.",
+   hyd:"Recharger 1 flasque boisson et 1 flasque eau à R1.",
+   note:"Boisson répartie sur 2 tronçons.",
+   food:[[18.8,"Au ravito R1 : 2–3 bouchées",10],["continu","Boisson Naak 50 g reconstituée à R1 (1re moitié)",25],[22.5,"Compote Decathlon",20]]},
+  {id:"R2 → R3", to:"Escattes", from:26.4, end:38.5, dp:214, dm:242, pace:7+5/60, stop:4, hr:"< 155 plat · < 160 montée",
+   cue:"Bascule semi-liquide. Descentes : petits pas, cadence haute, ne pas freiner avec les quadris.",
+   hyd:"Recharger l'eau à R2, boire même s'il fait frais.",
+   note:"Mâcher devient pénible après 3h30.",
+   food:[[26.4,"Au ravito R2 : quelques bouchées salées ou un fruit",10],["continu","Fin de la boisson Naak",25],[31,"Gel Naak 30 g",30],[35,"Compote Decathlon",20]]},
+  {id:"R3 → Arrivée", to:"Nîmes", from:38.5, end:52.5, dp:172, dm:222, pace:6+45/60, stop:0, hr:"Libre ≤ 165 si tout va bien",
+   cue:"Doit être ton tronçon le plus rapide. Si tu serres les dents, c'est une info clé pour la STL.",
+   hyd:"Flasque 1 Naak Boost, flasque 2 eau.",
+   note:"Cartouche de fin comme à la STL. Vérifier que le Boost est sans caféine.",
+   food:[[38.5,"Au ravito R3 : fruit ou salé selon l'envie",10],["continu","Naak Boost 60 g reconstituée à R3 (500 ml), jusqu'à l'arrivée",60],[45,"Gel Naak 30 g si besoin",30]]},
+];
+const PLAN_MOVE = LEGS.reduce((s,l)=>s+(l.end-l.from)*l.pace,0); // ≈ 378 min
+const STOPS = LEGS.reduce((s,l)=>s+l.stop,0);
+const SCEN = {
+  prudent:{label:"Prudent", total:410, txt:"Ta forme de 2025 extrapolée. Probable si le premier tronçon coûte plus que prévu ou s'il fait chaud.", dec:"Correspond à « > 6h45 à effort contrôlé » : plan STL 11h30."},
+  cible:{label:"Cible", total:PLAN_MOVE+STOPS, txt:"Ton plan : 7'40 jusqu'à Lédenon, 7'05 au milieu, 6'45 pour finir. Effort équivalent STL 11h.", dec:"Dans la fenêtre 6h15–6h45 : plan STL 11h si le cardio est tenu."},
+  ambitieux:{label:"Ambitieux", total:375, txt:"Possible avec une bonne journée, mais sous 6h15 ta propre grille dit « trop rapide ». À ne pas chercher.", dec:"Sous 6h15 : retravailler la gestion d'allure."},
+};
+let scen = "cible";
+try{ const s=localStorage.getItem("vv-scen"); if(s && SCEN[s]) scen=s; }catch(e){}
+
+const fmtDur = m => { m=Math.round(m); return Math.floor(m/60)+"h"+String(m%60).padStart(2,"0"); };
+const fmtClock = m => { m=Math.round(m); return String(Math.floor(m/60)).padStart(2,"0")+"h"+String(m%60).padStart(2,"0"); };
+const fmtPace = p => { const s=Math.round(p*60); return Math.floor(s/60)+"'"+String(s%60).padStart(2,"0"); };
+
+// temps de course (min) au km x pour un scénario : allures du plan mises à l'échelle
+function raceTime(x, s){
+  const f = (SCEN[s].total-STOPS)/PLAN_MOVE; let t=0;
+  for(const l of LEGS){
+    if(x<=l.end){ return t + (x-l.from)*l.pace*f; }
+    t += (l.end-l.from)*l.pace*f + l.stop;
+  }
+  return t;
+}
+function arrival(i, s){ // arrivée au ravito i (avant arrêt)
+  const l=LEGS[i]; const f=(SCEN[s].total-STOPS)/PLAN_MOVE; let t=0;
+  for(let k=0;k<=i;k++){ t += (LEGS[k].end-LEGS[k].from)*LEGS[k].pace*f; if(k<i) t+=LEGS[k].stop; }
+  return t;
+}
+
+const POINTS=[{n:"R1 Lédenon",km:18.8,i:0},{n:"R2 Carrières",km:26.4,i:1},{n:"R3 Escattes",km:38.5,i:2},{n:"Arrivée Nîmes",km:52.5,i:3}];
+const FOOD = LEGS.flatMap(l=>l.food.filter(f=>typeof f[0]==="number" && !/ravito/i.test(f[1])).map(f=>({km:f[0],p:f[1],g:f[2]})));
+
+// ---------- Profil ----------
+const svg=document.getElementById("prof"), tip=document.getElementById("tip");
+const W=1000,H=300,ML=44,MR=14,MT=34,MB=30;
+const kmMax=52.5, aMin=0, aMax=250;
+const X=k=>ML+k/kmMax*(W-ML-MR), Y=a=>MT+(1-(a-aMin)/(aMax-aMin))*(H-MT-MB);
+function altAt(k){ let lo=0,hi=PROFILE.length-1; while(hi-lo>1){const m=(lo+hi)>>1; if(PROFILE[m][0]<k) lo=m; else hi=m;} const a=PROFILE[lo],b=PROFILE[hi]; const t=b[0]===a[0]?0:(k-a[0])/(b[0]-a[0]); return a[1]+(b[1]-a[1])*t; }
+function drawProfile(){
+  svg.setAttribute("viewBox",`0 0 ${W} ${H}`); svg.style.minWidth="640px"; svg.style.width="100%"; svg.style.display="block";
+  let h="";
+  // bandes tronçons
+  LEGS.forEach((l,i)=>{ if(i%2) h+=`<rect x="${X(l.from)}" y="${MT}" width="${X(l.end)-X(l.from)}" height="${H-MT-MB}" fill="var(--sunk)" opacity=".55"/>`; });
+  for(let a=0;a<=250;a+=50){ h+=`<line x1="${ML}" x2="${W-MR}" y1="${Y(a)}" y2="${Y(a)}" stroke="var(--line)" stroke-width="1"/><text x="${ML-8}" y="${Y(a)+4}" text-anchor="end" font-size="11">${a}</text>`; }
+  for(let k=0;k<=50;k+=5){ h+=`<text x="${X(k)}" y="${H-10}" text-anchor="middle" font-size="11">${k}</text>`; }
+  h+=`<text x="${W-MR}" y="${H-10}" text-anchor="end" font-size="11">km</text>`;
+  const pts=PROFILE.map(p=>`${X(p[0]).toFixed(1)},${Y(p[1]).toFixed(1)}`);
+  h+=`<path d="M${X(0)},${Y(0)} L${pts.join(" L")} L${X(kmMax)},${Y(0)} Z" fill="var(--garrigue)" opacity=".18"/>`;
+  h+=`<path d="M${pts.join(" L")}" fill="none" stroke="var(--garrigue)" stroke-width="2" stroke-linejoin="round"/>`;
+  // ravitos
+  [{n:"Pont du Gard",km:0}].concat(POINTS).forEach(p=>{
+    const x=X(p.km), y=Y(altAt(p.km));
+    h+=`<line x1="${x}" x2="${x}" y1="${MT-6}" y2="${H-MB}" stroke="var(--ink)" stroke-width="1" stroke-dasharray="3 3" opacity=".5"/>`;
+    const anchor = p.km===0?"start":(p.km>=52?"end":"middle");
+    h+=`<text x="${x}" y="${MT-12}" text-anchor="${anchor}" font-size="11.5" style="fill:var(--ink);font-weight:500">${p.n}</text>`;
+    h+=`<circle cx="${x}" cy="${y}" r="5" fill="var(--ink)" stroke="var(--surface)" stroke-width="2"/>`;
+  });
+  FOOD.forEach(f=>{ h+=`<circle cx="${X(f.km)}" cy="${Y(altAt(f.km))}" r="4.5" fill="var(--ochre)" stroke="var(--surface)" stroke-width="2"/>`; });
+  h+=`<line id="cross" x1="0" x2="0" y1="${MT}" y2="${H-MB}" stroke="var(--ink)" stroke-width="1" visibility="hidden"/><circle id="crossdot" r="4" fill="var(--surface)" stroke="var(--ink)" stroke-width="2" visibility="hidden"/>`;
+  h+=`<rect id="hit" x="${ML}" y="${MT}" width="${W-ML-MR}" height="${H-MT-MB}" fill="transparent" style="cursor:crosshair"/>`;
+  svg.innerHTML=h;
+  const hit=svg.querySelector("#hit"), cross=svg.querySelector("#cross"), dot=svg.querySelector("#crossdot");
+  function move(ev){
+    const r=svg.getBoundingClientRect(); const cx=(ev.touches?ev.touches[0].clientX:ev.clientX);
+    const sx=(cx-r.left)/r.width*W; const k=Math.max(0,Math.min(kmMax,(sx-ML)/(W-ML-MR)*kmMax));
+    const a=altAt(k), t=raceTime(k,scen);
+    cross.setAttribute("x1",X(k)); cross.setAttribute("x2",X(k)); cross.setAttribute("visibility","visible");
+    dot.setAttribute("cx",X(k)); dot.setAttribute("cy",Y(a)); dot.setAttribute("visibility","visible");
+    const near=FOOD.find(f=>Math.abs(f.km-k)<0.5);
+    tip.innerHTML=`km ${k.toFixed(1)} · ${Math.round(a)} m<br>${fmtDur(t)} de course · ${fmtClock(START_MIN+t)}`+(near?`<br>▸ ${near.p} (${near.g} g)`:"");
+    const box=svg.parentElement.parentElement.getBoundingClientRect();
+    tip.style.left=Math.max(90,Math.min(box.width-90,(cx-box.left)))+"px"; tip.style.top=(r.top-box.top+Y(a)/H*r.height-10)+"px"; tip.style.display="block";
+  }
+  function out(){ tip.style.display="none"; cross.setAttribute("visibility","hidden"); dot.setAttribute("visibility","hidden"); }
+  hit.addEventListener("mousemove",move); hit.addEventListener("touchmove",move,{passive:true}); hit.addEventListener("mouseleave",out); hit.addEventListener("touchend",out);
+}
+
+// ---------- Passages ----------
+function drawPass(){
+  const tb=document.querySelector("#tbl-pass tbody");
+  tb.innerHTML=`<tr><td>Départ Pont du Gard</td><td class="n">0,0</td><td class="n">0h00</td><td class="n">0h00</td><td class="n">0h00</td><td class="n">08h00</td></tr>`+
+  POINTS.map(p=>`<tr class="${p.i===0?'':''}"><td>${p.n}</td><td class="n">${p.km.toFixed(1).replace(".",",")}</td>${["prudent","cible","ambitieux"].map(s=>`<td class="n"${s===scen?' style="font-weight:600;color:var(--ink)"':' style="color:var(--ink-3)"'}>${fmtDur(arrival(p.i,s))}</td>`).join("")}<td class="n"><b>${fmtClock(START_MIN+arrival(p.i,scen))}</b></td></tr>`).join("");
+}
+
+// ---------- Prévision ----------
+function drawFc(){
+  document.getElementById("fc").innerHTML=Object.entries(SCEN).map(([k,s])=>`<button type="button" class="fc" data-s="${k}" aria-pressed="${k===scen}"><span class="lab">${s.label}</span><span class="t">${fmtDur(s.total)}</span><span class="num muted" style="font-size:.82rem">arrivée ${fmtClock(START_MIN+s.total)} · ${fmtPace((s.total)/52.5)}/km arrêts inclus</span><p>${s.txt}</p><p><b>${s.dec}</b></p></button>`).join("");
+  document.querySelectorAll(".fc").forEach(b=>b.addEventListener("click",()=>setScen(b.dataset.s)));
+}
+function setScen(s){
+  scen=s; try{localStorage.setItem("vv-scen",s)}catch(e){}
+  document.querySelectorAll("#scen-ctl button").forEach(b=>b.setAttribute("aria-pressed",b.dataset.s===s));
+  document.getElementById("kpi-time").textContent=fmtDur(SCEN[s].total);
+  document.getElementById("kpi-time-lab").textContent=`arrivée prévue (scénario ${SCEN[s].label.toLowerCase()})`;
+  drawFc(); drawPass(); drawLegs();
+}
+document.querySelectorAll("#scen-ctl button").forEach(b=>b.addEventListener("click",()=>setScen(b.dataset.s)));
+
+// ---------- Tronçons ----------
+function drawLegs(){
+  const f=(SCEN[scen].total-STOPS)/PLAN_MOVE;
+  document.getElementById("legs").innerHTML=LEGS.map((l,i)=>{
+    const dist=l.end-l.from, mv=dist*l.pace*f, target=Math.round(mv/60*57.5);
+    const tot=l.food.reduce((s,x)=>s+x[2],0);
+    const max=Math.max(tot+30,target+20);
+    const rows=l.food.map(x=>{const tm=typeof x[0]==="number"?fmtDur(raceTime(x[0],scen)+(i>0&&x[0]===l.from?LEGS[i-1].stop:0)):"—";
+      return `<div class="intake-row"><span class="km">${typeof x[0]==="number"?"km "+String(x[0]).replace(".",","):"en continu"}</span><span class="tm">${tm}</span><span>${x[1]}</span><span class="g">${x[2]} g</span></div>`}).join("");
+    return `<article class="leg">
+      <div class="leg-id"><div class="eyebrow">${l.id}</div><div class="k">${l.to}<small>km ${String(l.from).replace(".",",")} → ${String(l.end).replace(".",",")}</small></div></div>
+      <div class="leg-body">
+        <div class="facts">
+          <div class="fact"><b>${dist.toFixed(1).replace(".",",")} km</b><span>distance</span></div>
+          <div class="fact"><b>+${l.dp} / −${l.dm}</b><span>dénivelé m</span></div>
+          <div class="fact"><b>${fmtPace(l.pace*f)}</b><span>allure /km</span></div>
+          <div class="fact"><b>${fmtDur(mv)}</b><span>temps tronçon</span></div>
+          <div class="fact"><b>${fmtClock(START_MIN+arrival(i,scen))}</b><span>${i===3?"arrivée":"au ravito"}</span></div>
+          <div class="fact"><b>${l.hr}</b><span>cardio cible</span></div>
+        </div>
+        <p class="cue">${l.cue}</p>
+        <div class="intake">${rows}<div class="intake-row tot"><span class="km">total</span><span class="tm"></span><span>${i===3?"Sous-total (gel inclus)":"Sous-total tronçon"}</span><span class="g">${tot} g</span></div></div>
+        <div style="display:grid;gap:4px">
+          <div class="bar" role="img" aria-label="Glucides prévus ${tot} g pour une cible de ${target} g"><i style="width:${Math.min(100,tot/max*100)}%"></i><u style="left:${target/max*100}%"></u></div>
+          <div class="bar-lab"><span>prévu ${tot} g</span><span>cible ${target} g (57,5 g/h) ${tot>=target*0.9?"✓":"⚠"}</span></div>
+        </div>
+        <p style="font-size:.87rem;color:var(--ink-2)"><b>Hydratation :</b> ${l.hyd} <span class="muted">${l.note}</span></p>
+      </div></article>`;
+  }).join("");
+}
+
+// ---------- Ravitos ----------
+const RAV=[
+  {n:"R1 · Lédenon",km:18.8,i:0,take:"½ banane, 2–3 biscuits salés, 1 verre d'eau",avoid:"Cola (caféine : test STL), fromage ou saucisson en quantité, tout produit jamais testé",steps:["Sachet boisson Naak dans flasque 1 + eau","Flasque 2 : eau","2–3 bouchées","Repartir en mangeant, en marchant"]},
+  {n:"R2 · Carrières",km:26.4,i:1,take:"Quartier d'orange, quelques biscuits salés ou un morceau de pain d'épices",avoid:"S'asseoir, boire glacé d'un coup",steps:["Remplir l'eau","Vérifier qu'il reste environ ½ flasque de boisson","Check pieds et frottements en 30 s"]},
+  {n:"R3 · Escattes Aventures",km:38.5,i:2,take:"Fruit (banane ou orange), bouillon salé s'il y en a (simule la soupe STL)",avoid:"Cola, sucreries en vrac « pour se requinquer »",steps:["Sachet Naak Boost dans flasque 1 + eau","Flasque 2 : eau","Repartir en marchant 1 min"]},
+];
+function drawRav(){
+  document.getElementById("rav").innerHTML=RAV.map(r=>`<article class="rav">
+    <div class="hd"><h3>${r.n}</h3><span class="num muted">km ${String(r.km).replace(".",",")}</span></div>
+    <span class="pill ochre num">arrêt 4 min · ${fmtClock(START_MIN+arrival(r.i,"cible"))} (cible)</span>
+    <ol>${r.steps.map(s=>`<li>${s}</li>`).join("")}</ol>
+    <dl><div><dt>À prendre</dt><dd>${r.take}</dd></div><div><dt>À éviter</dt><dd>${r.avoid}</dd></div></dl>
+  </article>`).join("");
+}
+
+// ---------- Checklist ----------
+const BAG=["2 sachets boisson Naak 50 g (départ + R1)","1 sachet Naak Boost 60 g (R3), vérifié sans caféine","3 gels Naak (dont 1 de secours)","1 gaufre Naak","1 barre cajou-sel","1 barre Decathlon","2 compotes Decathlon","Gobelet souple","2 flasques 500 ml (1 à 1,5 L au départ)","Pastilles de sel si chaleur","Montre chargée, alertes cardio 150 / 160","Récup arrivée : boisson + glucides + protéines"];
+function drawCheck(){
+  let st={}; try{st=JSON.parse(localStorage.getItem("vv-bag")||"{}")}catch(e){}
+  const c=document.getElementById("check");
+  c.innerHTML=BAG.map((b,i)=>`<label for="bag${i}"><input type="checkbox" id="bag${i}" ${st[i]?"checked":""}><span>${b}</span></label>`).join("");
+  c.addEventListener("change",e=>{ const i=e.target.id.slice(3); st[i]=e.target.checked; try{localStorage.setItem("vv-bag",JSON.stringify(st))}catch(err){} });
+}
+
+// ---------- Index UTMB ----------
+(function(){
+  const inp=document.getElementById("utmb");
+  try{ const v=localStorage.getItem("vv-utmb"); if(v) inp.value=v; }catch(e){}
+  inp.addEventListener("input",()=>{ try{localStorage.setItem("vv-utmb",inp.value)}catch(e){} });
+})();
+
+drawProfile(); setScen(scen); drawRav(); drawCheck();
+</script>
