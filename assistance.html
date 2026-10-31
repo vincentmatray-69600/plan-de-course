@@ -1,0 +1,188 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="description" content="Points de rendez-vous, horaires de passage et liens Plans pour l'assistance de Vincent sur la Veni Vici 52 km, samedi 7 novembre 2026.">
+<title>Assistance Veni Vici 52</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Big+Shoulders+Display:wght@600;800&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap">
+<style>
+/* Layout : carnet de route pour téléphone — une carte par point de rendez-vous, dans l'ordre de passage */
+:root{
+  --bg:#f3f2ee; --surface:#ffffff; --sunk:#e8e7e1; --line:#d4d2c9;
+  --ink:#1f2a24; --ink-2:#4b564f; --ink-3:#77817a;
+  --garrigue:#3d5a45; --garrigue-soft:#dfe7df;
+  --ochre:#c98a12; --ochre-soft:#f6e7c4;
+  --on-accent:#ffffff;
+  --font-display:"Big Shoulders Display","Arial Narrow",Impact,sans-serif;
+  --font-body:"IBM Plex Sans",system-ui,-apple-system,"Segoe UI",sans-serif;
+  --font-mono:"IBM Plex Mono",ui-monospace,Menlo,Consolas,monospace;
+  --r:8px;
+}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){
+  --bg:#141916; --surface:#1c231f; --sunk:#232b26; --line:#34403a;
+  --ink:#e9ece6; --ink-2:#b7c0b8; --ink-3:#86918a;
+  --garrigue:#8fb79a; --garrigue-soft:#25332a;
+  --ochre:#e7a935; --ochre-soft:#3a2f17; --on-accent:#141916; color-scheme:dark}}
+:root[data-theme="dark"]{
+  --bg:#141916; --surface:#1c231f; --sunk:#232b26; --line:#34403a;
+  --ink:#e9ece6; --ink-2:#b7c0b8; --ink-3:#86918a;
+  --garrigue:#8fb79a; --garrigue-soft:#25332a;
+  --ochre:#e7a935; --ochre-soft:#3a2f17; --on-accent:#141916; color-scheme:dark}
+
+*{box-sizing:border-box}
+html{-webkit-text-size-adjust:100%}
+body{background:var(--bg);color:var(--ink);font-family:var(--font-body);font-size:16px;line-height:1.5;margin:0}
+.wrap{max-width:640px;margin:0 auto;padding-inline:16px;padding-block:20px 48px;display:grid;gap:20px}
+h1,h2{font-family:var(--font-display);margin:0;line-height:1;text-wrap:balance}
+h1{font-size:2.6rem;font-weight:800;text-transform:uppercase}
+h2{font-size:1.7rem;font-weight:800;text-transform:uppercase}
+p{margin:0}
+.eyebrow{font-family:var(--font-mono);font-size:.72rem;letter-spacing:.12em;text-transform:uppercase;color:var(--ink-3)}
+.num{font-family:var(--font-mono);font-variant-numeric:tabular-nums}
+
+header{display:grid;gap:8px}
+header .sub{color:var(--ink-2)}
+.now{background:var(--ink);color:var(--bg);border-radius:var(--r);padding:12px 14px;display:grid;gap:2px}
+.now b{font-family:var(--font-display);font-size:1.5rem;font-weight:600;letter-spacing:.01em}
+.now span{font-size:.85rem;opacity:.85}
+
+.rules{background:var(--ochre-soft);border-radius:var(--r);padding:12px 14px;display:grid;gap:6px;font-size:.92rem}
+.rules ul{margin:0;padding-left:18px;display:grid;gap:4px}
+
+.stops{display:grid;gap:10px;list-style:none;margin:0;padding:0}
+.stop{background:var(--surface);border:1px solid var(--line);border-radius:var(--r);overflow:hidden;display:grid}
+.stop-hd{display:flex;justify-content:space-between;align-items:flex-start;gap:12px;padding:14px 14px 10px}
+.stop-hd .km{font-family:var(--font-display);font-size:2rem;font-weight:800;line-height:.9;text-align:right;flex:none}
+.stop-hd .km small{display:block;font-family:var(--font-mono);font-size:.68rem;font-weight:400;letter-spacing:.1em;color:var(--ink-3)}
+.stop.ravito .stop-hd{border-top:5px solid var(--garrigue)}
+.stop.endpoint .stop-hd{border-top:5px solid var(--ochre)}
+.place{color:var(--ink-2);font-size:.95rem;margin-top:4px}
+.times{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));border-top:1px solid var(--line);border-bottom:1px solid var(--line)}
+.times div{padding:8px 10px;display:grid;gap:1px;border-right:1px solid var(--line)}
+.times div:last-child{border-right:0}
+.times div.main{background:var(--garrigue-soft)}
+.times div.main b{font-weight:700;color:var(--ink)}
+.times b{font-family:var(--font-mono);font-weight:500;font-size:1.1rem;font-variant-numeric:tabular-nums}
+.times span{font-size:.7rem;color:var(--ink-3);text-transform:uppercase;letter-spacing:.06em;font-family:var(--font-mono)}
+.stop-body{padding:12px 14px 14px;display:grid;gap:12px}
+.todo{font-size:.92rem;display:grid;gap:4px}
+.todo strong{font-size:.72rem;font-family:var(--font-mono);letter-spacing:.1em;text-transform:uppercase;color:var(--ink-3);font-weight:500}
+.btns{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.btn{display:flex;align-items:center;justify-content:center;gap:8px;min-height:48px;padding:10px 12px;border-radius:999px;font:600 .95rem var(--font-body);text-decoration:none;text-align:center;border:1px solid var(--line);color:var(--ink);background:var(--surface);cursor:pointer}
+.btn.primary{background:var(--garrigue);border-color:var(--garrigue);color:var(--on-accent)}
+.btn:focus-visible,.coords button:focus-visible{outline:3px solid var(--ochre);outline-offset:2px}
+.btn svg{width:18px;height:18px;flex:none}
+.coords{display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:6px 12px;font-size:.82rem;color:var(--ink-3)}
+.coords button{font:500 .8rem var(--font-body);background:none;border:0;color:var(--ink-2);text-decoration:underline;cursor:pointer;padding:4px 0}
+.coords a{color:var(--ink-2)}
+.leg{font-size:.85rem;color:var(--ink-3);padding:0 14px;display:flex;align-items:center;gap:10px}
+.leg::before{content:"";width:2px;height:20px;background:repeating-linear-gradient(var(--line) 0 4px,transparent 4px 8px)}
+
+footer{font-size:.8rem;color:var(--ink-3);display:grid;gap:6px;border-top:1px solid var(--line);padding-top:14px}
+footer a{color:var(--ink-2)}
+@media (max-width:360px){.btns{grid-template-columns:1fr}.times b{font-size:1rem}}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+<header>
+  <div class="eyebrow">Samedi 7 novembre 2026 · La Veni Vici 52 km</div>
+  <h1>Assistance de Vincent</h1>
+  <p class="sub">Pont du Gard → Nîmes, départ 8h30. Pour chaque point : l'heure de passage prévue et un bouton pour y aller avec Plans.</p>
+  <div class="now" id="now" aria-live="polite"><b>Départ à 8h30 au Pont du Gard</b><span>Le jour de la course, sa position estimée s'affichera ici.</span></div>
+</header>
+
+<section class="rules" aria-label="À savoir">
+  <b>À savoir</b>
+  <ul>
+    <li>L'assistance perso est autorisée <b>en dehors des ravitos</b> : attends-le juste avant ou juste après la zone de ravitaillement.</li>
+    <li>Il s'arrête 4 min maximum à chaque ravito.</li>
+    <li>L'heure en gras est l'horaire visé. « Tôt » et « tard » donnent la fourchette réaliste.</li>
+  </ul>
+</section>
+
+<ol class="stops" id="stops"></ol>
+
+<footer>
+  <p>Emplacements tirés du GPX officiel de la course (trace « La Veni Vici 2026 / 52KM »). Le point « Ravito 5 » du fichier est hors du parcours 52 km et n'est pas repris ici.</p>
+  <p>Plan de course complet : <a href="./">vincentmatray-69600.github.io/plan-de-course</a></p>
+</footer>
+</div>
+
+<script>
+const START = 8*60+30; // départ 8h30
+// t = temps de course (min) à l'arrivée au point : [ambitieux, visé, prudent], repris du plan de course
+const STOPS = [
+  {type:"endpoint", tag:"Départ", name:"Pont du Gard", place:"Site du Pont du Gard (Vers-Pont-du-Gard)", km:0, lat:43.94918, lon:4.53506, t:[0,0,0],
+   todo:"Départ à 8h30. Il part avec 1 à 1,5 L (flasque boisson + flasque eau) et toute sa nutrition jusqu'à Lédenon."},
+  {type:"ravito", tag:"Ravito 1", name:"Lédenon", place:"Lédenon, centre du village", km:18.8, lat:43.915198, lon:4.506896, t:[138,144,152],
+   todo:"Premier passage, après 18,8 km et la moitié du dénivelé. Il recharge : sachet de boisson Naak dans la flasque 1, eau dans la flasque 2. Prévoir de l'eau en plus et un gel de secours."},
+  {type:"ravito", tag:"Ravito 2", name:"Carrières", place:"Ravito « Carrières », secteur de Cabrières", km:26.4, lat:43.905297, lon:4.471616, t:[194,202,212],
+   todo:"Passage rapide : remplissage d'eau. Lui demander comment vont les pieds et l'estomac."},
+  {type:"ravito", tag:"Ravito 3", name:"Escattes Aventures", place:"Parc Escattes Aventures, entre Cabrières et Nîmes", km:38.5, lat:43.876268, lon:4.412867, t:[280,292,307],
+   todo:"Point clé : il prend le sachet Naak Boost (sans caféine) pour la fin de course. Prévoir un sachet de rechange et de l'eau."},
+  {type:"endpoint", tag:"Arrivée", name:"Nîmes", place:"Nîmes, secteur des Arènes", km:52.5, lat:43.83441, lon:4.36003, t:[375,390,410],
+   todo:"Dans les 30 minutes après l'arrivée : boisson, glucides et protéines. Prévoir une veste chaude, il refroidira vite."},
+];
+
+const clock = m => { m=Math.round(m); return String(Math.floor(m/60)%24).padStart(2,"0")+"h"+String(m%60).padStart(2,"0"); };
+const kmTxt = k => String(+k.toFixed(1)).replace(".",",");
+const enc = encodeURIComponent;
+const pin = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M12 21s-7-6.2-7-11.5A7 7 0 0 1 19 9.5C19 14.8 12 21 12 21z"/><circle cx="12" cy="9.5" r="2.5"/></svg>';
+const car = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M5 17h14v-5l-2-5H7l-2 5v5z"/><circle cx="8" cy="17" r="1.5"/><circle cx="16" cy="17" r="1.5"/></svg>';
+
+document.getElementById("stops").innerHTML = STOPS.map((s,i)=>{
+  const label = `${s.tag} – ${s.name}`;
+  const plans = `https://maps.apple.com/?ll=${s.lat},${s.lon}&q=${enc(label)}`;
+  const route = `https://maps.apple.com/?daddr=${s.lat},${s.lon}&dirflg=d`;
+  const gmaps = `https://www.google.com/maps/search/?api=1&query=${s.lat},${s.lon}`;
+  const times = s.km===0
+    ? `<div class="main" style="grid-column:1/-1"><span>départ</span><b>08h30</b></div>`
+    : `<div><span>tôt</span><b>${clock(START+s.t[0])}</b></div><div class="main"><span>visé</span><b>${clock(START+s.t[1])}</b></div><div><span>tard</span><b>${clock(START+s.t[2])}</b></div>`;
+  const next = STOPS[i+1];
+  return `<li class="stop ${s.type}">
+    <div class="stop-hd"><div><div class="eyebrow">${s.tag}</div><h2>${s.name}</h2><p class="place">${s.place}</p></div>
+      <div class="km">${kmTxt(s.km)}<small>km</small></div></div>
+    <div class="times">${times}</div>
+    <div class="stop-body">
+      <p class="todo"><strong>Pour l'assistance</strong>${s.todo}</p>
+      <div class="btns">
+        <a class="btn primary" href="${plans}" target="_blank" rel="noopener">${pin}Ouvrir dans Plans</a>
+        <a class="btn" href="${route}" target="_blank" rel="noopener">${car}Itinéraire</a>
+      </div>
+      <div class="coords"><span class="num">${s.lat.toFixed(5)}, ${s.lon.toFixed(5)}</span>
+        <span><button type="button" data-c="${s.lat.toFixed(6)}, ${s.lon.toFixed(6)}">Copier les coordonnées</button> · <a href="${gmaps}" target="_blank" rel="noopener">Google Maps</a></span></div>
+    </div></li>` + (next ? `<li class="leg" aria-hidden="true">${kmTxt(next.km-s.km)} km de course jusqu'au point suivant</li>` : "");
+}).join("");
+
+document.getElementById("stops").addEventListener("click", e=>{
+  const b = e.target.closest("button[data-c]"); if(!b || !navigator.clipboard) return;
+  const label = b.textContent;
+  navigator.clipboard.writeText(b.dataset.c).then(()=>{ b.textContent="Copié"; setTimeout(()=>b.textContent=label,1500); }).catch(()=>{});
+});
+
+// Position estimée en direct le jour de la course (horaire visé)
+(function live(){
+  const now = new Date();
+  if (!(now.getFullYear()===2026 && now.getMonth()===10 && now.getDate()===7)) return;
+  const el = document.getElementById("now");
+  const m = now.getHours()*60+now.getMinutes()-START;
+  const end = STOPS[STOPS.length-1];
+  if (m < 0) el.innerHTML = `<b>Départ dans ${-m} min</b><span>Pont du Gard, 8h30.</span>`;
+  else if (m >= end.t[1]) el.innerHTML = `<b>Il devrait être arrivé</b><span>Arrivée visée à ${clock(START+end.t[1])}, à Nîmes.</span>`;
+  else {
+    const k = STOPS.findIndex((s,i)=>i>0 && s.t[1]>m);
+    const prev = STOPS[k-1], nxt = STOPS[k];
+    const leave = prev.t[1] + (k>1 ? 4 : 0);
+    const f = Math.max(0, Math.min(1, (m-leave)/(nxt.t[1]-leave)));
+    el.innerHTML = `<b>Vers le km ${Math.round(prev.km + f*(nxt.km-prev.km))}</b><span>Prochain point : ${nxt.tag} ${nxt.name}, visé à ${clock(START+nxt.t[1])}.</span>`;
+  }
+  setTimeout(live, 60000);
+})();
+</script>
+</body>
+</html>
