@@ -11,9 +11,9 @@
 <style>
 /* Layout : feuille de route de dossard — bandeau dossard, profil pleine largeur, puis tronçons en colonnes empilées */
 :root{
-  --bg:#f3f2ee; --surface:#ffffff; --sunk:#e8e7e1; --line:#d4d2c9;
-  --ink:#1f2a24; --ink-2:#4b564f; --ink-3:#77817a;
-  --garrigue:#3d5a45; --garrigue-soft:#dfe7df;
+  --bg:#eaf2fa; --surface:#ffffff; --sunk:#dbe7f2; --line:#c6d5e3;
+  --ink:#1b2733; --ink-2:#475665; --ink-3:#6f7e8e;
+  --garrigue:#2b6ea3; --garrigue-soft:#d6e8f7;
   --ochre:#c98a12; --ochre-soft:#f6e7c4;
   --good:#2f7a4a; --warn:#b26a00; --crit:#b2382c;
   --font-display:"Big Shoulders Display","Arial Narrow",Impact,sans-serif;
@@ -22,15 +22,15 @@
   --r:6px;
 }
 @media (prefers-color-scheme:dark){:root:not([data-theme="light"]){
-  --bg:#141916; --surface:#1c231f; --sunk:#232b26; --line:#34403a;
-  --ink:#e9ece6; --ink-2:#b7c0b8; --ink-3:#86918a;
-  --garrigue:#8fb79a; --garrigue-soft:#25332a;
+  --bg:#0f1822; --surface:#162230; --sunk:#1c2a3a; --line:#2e4052;
+  --ink:#e6edf4; --ink-2:#b4c1ce; --ink-3:#8391a0;
+  --garrigue:#8ec3ec; --garrigue-soft:#1d3346;
   --ochre:#e7a935; --ochre-soft:#3a2f17;
   --good:#6cc28a; --warn:#e8a03c; --crit:#ef7b6e; color-scheme:dark}}
 :root[data-theme="dark"]{
-  --bg:#141916; --surface:#1c231f; --sunk:#232b26; --line:#34403a;
-  --ink:#e9ece6; --ink-2:#b7c0b8; --ink-3:#86918a;
-  --garrigue:#8fb79a; --garrigue-soft:#25332a;
+  --bg:#0f1822; --surface:#162230; --sunk:#1c2a3a; --line:#2e4052;
+  --ink:#e6edf4; --ink-2:#b4c1ce; --ink-3:#8391a0;
+  --garrigue:#8ec3ec; --garrigue-soft:#1d3346;
   --ochre:#e7a935; --ochre-soft:#3a2f17;
   --good:#6cc28a; --warn:#e8a03c; --crit:#ef7b6e; color-scheme:dark}
 
@@ -105,7 +105,7 @@ tr.sel td{background:var(--ochre-soft)}
 /* Tronçons */
 .legs{display:grid;gap:14px}
 .leg{background:var(--surface);border:1px solid var(--line);border-radius:var(--r);display:grid;grid-template-columns:150px minmax(0,1fr);overflow:hidden}
-.leg-id{background:var(--garrigue);color:var(--bg);padding:14px;display:grid;align-content:space-between;gap:10px}
+.leg-id{background:var(--garrigue-soft);color:var(--ink);padding:14px;display:grid;align-content:space-between;gap:10px}
 .leg-id .k{font-family:var(--font-display);font-size:2.3rem;font-weight:800;line-height:.95}
 .leg-id .k small{display:block;font-size:.9rem;font-weight:600;opacity:.85;letter-spacing:.04em}
 .leg-id .eyebrow{color:inherit;opacity:.8}
