@@ -3,8 +3,8 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<meta name="description" content="Points de rendez-vous, horaires de passage et liens Plans pour l'assistance de Vincent sur la Veni Vici 52 km, samedi 7 novembre 2026.">
-<title>Assistance Veni Vici 52</title>
+<meta name="description" content="Points de rendez-vous, horaires de passage et liens Plans pour l'assistance de Vincent sur la SaintéLyon 80 km, nuit du 28 au 29 novembre 2026.">
+<title>Assistance SaintéLyon</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Big+Shoulders+Display:wght@600;800&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap">
@@ -45,6 +45,8 @@ p{margin:0}
 
 header{display:grid;gap:8px}
 header .sub{color:var(--ink-2)}
+.start{display:flex;flex-wrap:wrap;align-items:center;gap:8px;font-size:.92rem;color:var(--ink-2)}
+.start select{font:600 1rem var(--font-mono);padding:6px 10px;border:1px solid var(--line);border-radius:6px;background:var(--surface);color:var(--ink)}
 .now{background:var(--ink);color:var(--bg);border-radius:var(--r);padding:12px 14px;display:grid;gap:2px}
 .now b{font-family:var(--font-display);font-size:1.5rem;font-weight:600;letter-spacing:.01em}
 .now span{font-size:.85rem;opacity:.85}
@@ -73,13 +75,18 @@ header .sub{color:var(--ink-2)}
 .btns{display:grid;grid-template-columns:1fr 1fr;gap:8px}
 .btn{display:flex;align-items:center;justify-content:center;gap:8px;min-height:48px;padding:10px 12px;border-radius:999px;font:600 .95rem var(--font-body);text-decoration:none;text-align:center;border:1px solid var(--line);color:var(--ink);background:var(--surface);cursor:pointer}
 .btn.primary{background:var(--garrigue);border-color:var(--garrigue);color:var(--on-accent)}
-.btn:focus-visible,.coords button:focus-visible{outline:3px solid var(--ochre);outline-offset:2px}
+.btn:focus-visible,.coords button:focus-visible,.start select:focus-visible{outline:3px solid var(--ochre);outline-offset:2px}
 .btn svg{width:18px;height:18px;flex:none}
 .coords{display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:6px 12px;font-size:.82rem;color:var(--ink-3)}
 .coords button{font:500 .8rem var(--font-body);background:none;border:0;color:var(--ink-2);text-decoration:underline;cursor:pointer;padding:4px 0}
 .coords a{color:var(--ink-2)}
+.refs{display:grid;gap:0;border:1px solid var(--line);border-radius:6px;overflow:hidden}
+.ref{display:grid;grid-template-columns:auto 1fr auto;gap:10px;align-items:center;padding:8px 10px;border-bottom:1px solid var(--line);font-size:.88rem}
+.ref:last-child{border-bottom:0}
+.ref .k{font-family:var(--font-mono);color:var(--ink-3);font-size:.8rem}
+.ref a{color:var(--ink);font-weight:600;white-space:nowrap}
 .leg{font-size:.85rem;color:var(--ink-3);padding:0 14px;display:flex;align-items:center;gap:10px}
-.leg::before{content:"";width:2px;height:20px;background:repeating-linear-gradient(var(--line) 0 4px,transparent 4px 8px)}
+.leg::before{content:"";width:2px;height:20px;flex:none;background:repeating-linear-gradient(var(--line) 0 4px,transparent 4px 8px)}
 
 footer{font-size:.8rem;color:var(--ink-3);display:grid;gap:6px;border-top:1px solid var(--line);padding-top:14px}
 footer a{color:var(--ink-2)}
@@ -90,99 +97,124 @@ footer a{color:var(--ink-2)}
 <div class="wrap">
 
 <header>
-  <div class="eyebrow">Samedi 7 novembre 2026 · La Veni Vici 52 km</div>
+  <div class="eyebrow">Nuit du 28 au 29 novembre 2026 · SaintéLyon 80 km</div>
   <h1>Assistance de Vincent</h1>
-  <p class="sub">Pont du Gard → Nîmes, départ 8h30. Pour chaque point : l'heure de passage prévue et un bouton pour y aller avec Plans.</p>
-  <div class="now" id="now" aria-live="polite"><b>Départ à 8h30 au Pont du Gard</b><span>Le jour de la course, sa position estimée s'affichera ici.</span></div>
+  <p class="sub">Saint-Étienne → Lyon, objectif 11h. Pour chaque point de rendez-vous : l'heure de passage prévue et un bouton pour y aller avec Plans.</p>
+  <div class="start"><label for="start-sel">Heure de départ de Vincent :</label>
+    <select id="start-sel"><option value="1410">23h30</option><option value="1425">23h45</option><option value="1440" selected>00h00</option><option value="1455">00h15</option><option value="1470">00h30</option></select>
+    <span>(à régler quand sa vague est connue)</span></div>
+  <div class="now" id="now" aria-live="polite"><b>Départ de Saint-Étienne</b><span>Pendant la course, sa position estimée s'affichera ici. Pour le suivi en direct, utilise l'application LiveTrail avec son numéro de dossard.</span></div>
 </header>
 
 <section class="rules" aria-label="À savoir">
   <b>À savoir</b>
   <ul>
-    <li>L'assistance perso est autorisée <b>en dehors des ravitos</b> : attends-le juste avant ou juste après la zone de ravitaillement.</li>
-    <li>Il s'arrête 4 min maximum à chaque ravito.</li>
-    <li>L'heure en gras est l'horaire visé. « Tôt » et « tard » donnent la fourchette réaliste.</li>
+    <li><b>Sainte-Catherine n'est pas accessible en voiture.</b></li>
+    <li>Interdiction stricte de se garer sur une propriété privée (entrée, bord de route, champ) : le coureur peut être <b>mis hors course</b>. Suivre les parkings et accès du guide accompagnateurs sur le site de la SaintéLyon.</li>
+    <li>L'heure en gras correspond à l'objectif 11h. Les deux autres colonnes donnent l'heure s'il court en 11h30 ou en 12h.</li>
+    <li>Il fait nuit jusqu'à 8h environ : prévoir une lampe et des vêtements chauds.</li>
   </ul>
 </section>
 
 <ol class="stops" id="stops"></ol>
 
 <footer>
-  <p>Emplacements tirés du GPX officiel de la course (trace « La Veni Vici 2026 / 52KM »). Le point « Ravito 5 » du fichier est hors du parcours 52 km et n'est pas repris ici.</p>
+  <p>Emplacements des ravitos tirés de la trace officielle 2026 et de ses passages de 2024. Les repères entre Sainte-Catherine et Saint-Genou sont des points de la trace : vérifie l'accès en voiture et le stationnement avant de t'y rendre.</p>
   <p>Plan de course complet : <a href="./">vincentmatray-69600.github.io/plan-de-course</a></p>
 </footer>
 </div>
 
 <script>
-const START = 8*60+30; // départ 8h30
-// t = temps de course (min) à l'arrivée au point : [ambitieux, visé, prudent], repris du plan de course
-const STOPS = [
-  {type:"endpoint", tag:"Départ", name:"Pont du Gard", place:"Site du Pont du Gard (Vers-Pont-du-Gard)", km:0, lat:43.94918, lon:4.53506, t:[0,0,0],
-   todo:"Départ à 8h30. Il part avec 1 à 1,5 L (flasque boisson + flasque eau) et toute sa nutrition jusqu'à Lédenon."},
-  {type:"ravito", tag:"Ravito 1", name:"Lédenon", place:"Lédenon, centre du village", km:18.8, lat:43.915198, lon:4.506896, t:[138,144,152],
-   todo:"Premier passage, après 18,8 km et la moitié du dénivelé. Il recharge : sachet de boisson Naak dans la flasque 1, eau dans la flasque 2."},
-  {type:"ravito", tag:"Ravito 2", name:"Carrières", place:"Ravito « Carrières », secteur de Cabrières", km:26.4, lat:43.905297, lon:4.471616, t:[194,202,212],
-   todo:"Passage rapide : remplissage d'eau. Lui demander comment vont les pieds et l'estomac."},
-  {type:"ravito", tag:"Ravito 3", name:"Escattes Aventures", place:"Parc Escattes Aventures, entre Cabrières et Nîmes", km:38.5, lat:43.876268, lon:4.412867, t:[280,292,307],
-   todo:"Point clé : il prend le sachet Naak Boost (sans caféine) pour la fin de course. Prévoir un sachet de rechange."},
-  {type:"endpoint", tag:"Arrivée", name:"Nîmes", place:"Nîmes, secteur des Arènes", km:52.5, lat:43.83441, lon:4.36003, t:[375,390,410],
-   todo:"Dans les 30 minutes après l'arrivée : boisson, glucides et protéines. Prévoir une veste chaude, il refroidira vite."},
+// Même modèle que le plan de course : temps en mouvement 2024 par tronçon (min), arrêts prévus, 1re moitié à 96 % de 2024
+const LEGS = [{e:17.2,b:165,s:3,h:1},{e:32.1,b:118.4,s:6,h:1},{e:45.9,b:145.2,s:5,h:2},{e:60.2,b:107.4,s:5,h:2},{e:66.6,b:59.3,s:3,h:2},{e:80.7,b:121.4,s:0,h:2}];
+const TOTALS = [660, 690, 720]; // 11h, 11h30, 12h
+const F1 = 0.96, STOPS = 22;
+const B1 = LEGS.filter(l=>l.h===1).reduce((a,l)=>a+l.b,0), B2 = LEGS.filter(l=>l.h===2).reduce((a,l)=>a+l.b,0);
+function raceTime(x, total){ // temps de course (min) au km x, arrêts inclus
+  const f2 = (total-STOPS-B1*F1)/B2; let t=0, from=0;
+  for(const l of LEGS){ const mv=l.b*(l.h===1?F1:f2);
+    if(x<=l.e) return t + (x-from)/(l.e-from)*mv;
+    t += mv + l.s; from=l.e; }
+  return t;
+}
+let START = 1440;
+try{ const v=+localStorage.getItem("stl-start"); if(v>=1410 && v<=1470) START=v; }catch(e){}
+
+const STOPS_LIST = [
+  {type:"endpoint", tag:"Départ", name:"Saint-Étienne", place:"Parc des Expositions de Saint-Étienne", km:0, lat:45.45007, lon:4.39837,
+   todo:"Départ par vagues entre 23h30 et 00h30. Navettes depuis Lyon (Avenue Leclerc, 69007) de 16h à 19h30."},
+  {type:"ravito", tag:"Rendez-vous 1", name:"Entre Ste-Catherine et St-Genou", place:"Sur la trace, entre le km 32 (Sainte-Catherine) et le km 46 (Saint-Genou)", km:38, lat:45.62232, lon:4.57771,
+   refs:[[38.0,45.62232,4.57771],[41.0,45.63595,4.58617],[44.0,45.64062,4.60507]],
+   todo:"Lui tendre une flasque de boisson Naak préparée (1 sachet de 50 g dans 500 ml) et récupérer la flasque vide. C'est le creux de la nuit : encouragements bienvenus."},
+  {type:"ravito", tag:"Rendez-vous 2", name:"Soucieu-en-Jarrest", place:"Ravitaillement de Soucieu-en-Jarrest", km:60.2, lat:45.67743, lon:4.69596,
+   todo:"Lui donner la flasque Naak Boost préparée (60 g dans 500 ml). L'aider à repartir vite : en 2024, il était resté 15 min ici."},
+  {type:"ravito", tag:"Rendez-vous 3", name:"Chaponost", place:"Ravitaillement de Chaponost", km:66.6, lat:45.70828, lon:4.73328,
+   todo:"Encouragements et eau si besoin. Il reste 14 km : ensuite, direction l'arrivée."},
+  {type:"endpoint", tag:"Arrivée", name:"Lyon", place:"Halle Tony Garnier, Lyon 7e", km:80.7, lat:45.72993, lon:4.82483,
+   todo:"Après l'arrivée : boisson, glucides et protéines dans les 30 minutes, et une veste chaude. Son sac est disponible sous l'arche d'arrivée."},
 ];
 
 const clock = m => { m=Math.round(m); return String(Math.floor(m/60)%24).padStart(2,"0")+"h"+String(m%60).padStart(2,"0"); };
-const kmTxt = k => String(+k.toFixed(1)).replace(".",",");
+const kmTxt = k => String(+(+k).toFixed(1)).replace(".",",");
 const enc = encodeURIComponent;
 const pin = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M12 21s-7-6.2-7-11.5A7 7 0 0 1 19 9.5C19 14.8 12 21 12 21z"/><circle cx="12" cy="9.5" r="2.5"/></svg>';
 const car = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M5 17h14v-5l-2-5H7l-2 5v5z"/><circle cx="8" cy="17" r="1.5"/><circle cx="16" cy="17" r="1.5"/></svg>';
+const plansUrl = (lat,lon,label) => `https://maps.apple.com/?ll=${lat},${lon}&q=${enc(label)}`;
 
-document.getElementById("stops").innerHTML = STOPS.map((s,i)=>{
-  const label = `${s.tag} – ${s.name}`;
-  const plans = `https://maps.apple.com/?ll=${s.lat},${s.lon}&q=${enc(label)}`;
-  const route = `https://maps.apple.com/?daddr=${s.lat},${s.lon}&dirflg=d`;
-  const gmaps = `https://www.google.com/maps/search/?api=1&query=${s.lat},${s.lon}`;
-  const times = s.km===0
-    ? `<div class="main" style="grid-column:1/-1"><span>départ</span><b>08h30</b></div>`
-    : `<div><span>tôt</span><b>${clock(START+s.t[0])}</b></div><div class="main"><span>visé</span><b>${clock(START+s.t[1])}</b></div><div><span>tard</span><b>${clock(START+s.t[2])}</b></div>`;
-  const next = STOPS[i+1];
-  return `<li class="stop ${s.type}">
-    <div class="stop-hd"><div><div class="eyebrow">${s.tag}</div><h2>${s.name}</h2><p class="place">${s.place}</p></div>
-      <div class="km">${kmTxt(s.km)}<small>km</small></div></div>
-    <div class="times">${times}</div>
-    <div class="stop-body">
-      <p class="todo"><strong>Pour l'assistance</strong>${s.todo}</p>
-      <div class="btns">
-        <a class="btn primary" href="${plans}" target="_blank" rel="noopener">${pin}Ouvrir dans Plans</a>
-        <a class="btn" href="${route}" target="_blank" rel="noopener">${car}Itinéraire</a>
-      </div>
-      <div class="coords"><span class="num">${s.lat.toFixed(5)}, ${s.lon.toFixed(5)}</span>
-        <span><button type="button" data-c="${s.lat.toFixed(6)}, ${s.lon.toFixed(6)}">Copier les coordonnées</button> · <a href="${gmaps}" target="_blank" rel="noopener">Google Maps</a></span></div>
-    </div></li>` + (next ? `<li class="leg" aria-hidden="true">${kmTxt(next.km-s.km)} km de course jusqu'au point suivant</li>` : "");
-}).join("");
+function render(){
+  document.getElementById("stops").innerHTML = STOPS_LIST.map((s,i)=>{
+    const label = `${s.tag} – ${s.name}`;
+    const route = `https://maps.apple.com/?daddr=${s.lat},${s.lon}&dirflg=d`;
+    const gmaps = `https://www.google.com/maps/search/?api=1&query=${s.lat},${s.lon}`;
+    let times;
+    if (s.km===0) times = `<div class="main" style="grid-column:1/-1"><span>départ</span><b>${clock(START)}</b></div>`;
+    else if (s.refs) times = `<div class="main" style="grid-column:1/-1"><span>créneau de passage (objectif 11h → 12h)</span><b>${clock(START+raceTime(32.1,TOTALS[0])+6)} – ${clock(START+raceTime(45.9,TOTALS[2]))}</b></div>`;
+    else times = TOTALS.map((t,j)=>`<div${j===0?' class="main"':''}><span>${["si 11h","si 11h30","si 12h"][j]}</span><b>${clock(START+raceTime(s.km,t))}</b></div>`).join("");
+    const refs = s.refs ? `<div class="refs">${s.refs.map(r=>`<div class="ref"><span class="k">km ${kmTxt(r[0])}</span><span class="num">${clock(START+raceTime(r[0],TOTALS[0]))} <span style="color:var(--ink-3)">(11h) · ${clock(START+raceTime(r[0],TOTALS[1]))} (11h30)</span></span><a href="${plansUrl(r[1],r[2],"Repère km "+r[0]+" – SaintéLyon")}" target="_blank" rel="noopener">Plans</a></div>`).join("")}</div>` : "";
+    const next = STOPS_LIST[i+1];
+    return `<li class="stop ${s.type}">
+      <div class="stop-hd"><div><div class="eyebrow">${s.tag}</div><h2>${s.name}</h2><p class="place">${s.place}</p></div>
+        <div class="km">${s.refs?"32–46":kmTxt(s.km)}<small>km</small></div></div>
+      <div class="times">${times}</div>
+      <div class="stop-body">
+        <p class="todo"><strong>Pour l'assistance</strong>${s.todo}</p>
+        ${refs}
+        <div class="btns">
+          <a class="btn primary" href="${plansUrl(s.lat,s.lon,label)}" target="_blank" rel="noopener">${pin}Ouvrir dans Plans</a>
+          <a class="btn" href="${route}" target="_blank" rel="noopener">${car}Itinéraire</a>
+        </div>
+        <div class="coords"><span class="num">${s.lat.toFixed(5)}, ${s.lon.toFixed(5)}</span>
+          <span><button type="button" data-c="${s.lat.toFixed(6)}, ${s.lon.toFixed(6)}">Copier les coordonnées</button> · <a href="${gmaps}" target="_blank" rel="noopener">Google Maps</a></span></div>
+      </div></li>` + (next ? `<li class="leg" aria-hidden="true">${s.refs?"Ravito de Saint-Genou (km 45,9), puis Soucieu":next.refs?"Saint-Christo (km 17,2), puis Sainte-Catherine (km 32,1), non accessible en voiture":kmTxt(next.km-s.km)+" km de course jusqu'au point suivant"}</li>` : "");
+  }).join("");
+}
 
 document.getElementById("stops").addEventListener("click", e=>{
   const b = e.target.closest("button[data-c]"); if(!b || !navigator.clipboard) return;
   const label = b.textContent;
   navigator.clipboard.writeText(b.dataset.c).then(()=>{ b.textContent="Copié"; setTimeout(()=>b.textContent=label,1500); }).catch(()=>{});
 });
+const sel = document.getElementById("start-sel"); sel.value = String(START);
+sel.addEventListener("change", ()=>{ START=+sel.value; try{localStorage.setItem("stl-start",sel.value)}catch(e){} render(); live(); });
 
-// Position estimée en direct le jour de la course (horaire visé)
-(function live(){
-  const now = new Date();
-  if (!(now.getFullYear()===2026 && now.getMonth()===10 && now.getDate()===7)) return;
+// Position estimée en direct pendant la nuit de course (objectif 11h)
+const MARKS = [[17.2,"Saint-Christo"],[32.1,"Sainte-Catherine"],[38,"Rendez-vous 1"],[45.9,"Saint-Genou"],[60.2,"Soucieu"],[66.6,"Chaponost"],[80.7,"Arrivée Lyon"]];
+let timer;
+function live(){
+  clearTimeout(timer);
   const el = document.getElementById("now");
-  const m = now.getHours()*60+now.getMinutes()-START;
-  const end = STOPS[STOPS.length-1];
-  if (m < 0) el.innerHTML = `<b>Départ dans ${-m} min</b><span>Pont du Gard, 8h30.</span>`;
-  else if (m >= end.t[1]) el.innerHTML = `<b>Il devrait être arrivé</b><span>Arrivée visée à ${clock(START+end.t[1])}, à Nîmes.</span>`;
+  const m = (Date.now() - new Date(2026,10,28,0,0,0).getTime())/60000 - START; // minutes depuis le départ
+  if (m < -180 || m > 15*60) return;
+  if (m < 0) el.innerHTML = `<b>Départ dans ${Math.ceil(-m)} min</b><span>Saint-Étienne, ${clock(START)}.</span>`;
+  else if (m >= TOTALS[0]) el.innerHTML = `<b>Arrivée possible à tout moment</b><span>Objectif 11h : ${clock(START+TOTALS[0])}. Si 12h : ${clock(START+TOTALS[2])}.</span>`;
   else {
-    const k = STOPS.findIndex((s,i)=>i>0 && s.t[1]>m);
-    const prev = STOPS[k-1], nxt = STOPS[k];
-    const leave = prev.t[1] + (k>1 ? 4 : 0);
-    const f = Math.max(0, Math.min(1, (m-leave)/(nxt.t[1]-leave)));
-    el.innerHTML = `<b>Vers le km ${Math.round(prev.km + f*(nxt.km-prev.km))}</b><span>Prochain point : ${nxt.tag} ${nxt.name}, visé à ${clock(START+nxt.t[1])}.</span>`;
+    let lo=0, hi=80.7; for(let it=0;it<30;it++){ const mid=(lo+hi)/2; if(raceTime(mid,TOTALS[0])<m) lo=mid; else hi=mid; }
+    const nxt = MARKS.find(x=>x[0]>lo+0.05);
+    el.innerHTML = `<b>Vers le km ${Math.round(lo)} (si objectif 11h)</b><span>Prochain repère : ${nxt[1]}, vers ${clock(START+raceTime(nxt[0],TOTALS[0]))}. Vérifie sur LiveTrail.</span>`;
   }
-  setTimeout(live, 60000);
-})();
+  timer = setTimeout(live, 60000);
+}
+render(); live();
 </script>
 </body>
 </html>
