@@ -3,6 +3,8 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'unsafe-inline'; style-src 'unsafe-inline' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; img-src 'self' data:; base-uri 'none'; form-action 'none'">
+<meta name="referrer" content="no-referrer">
 <meta name="description" content="Points de rendez-vous, horaires de passage et liens Plans pour l'assistance de Vincent sur la SaintéLyon 80 km, nuit du 28 au 29 novembre 2026.">
 <title>Assistance SaintéLyon</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -94,6 +96,7 @@ footer a{color:var(--ink-2)}
 </style>
 </head>
 <body>
+<noscript><p style="margin:16px;padding:12px 14px;border-radius:8px;background:#f6e7c4;color:#1b2733;font-family:system-ui,sans-serif">Cette page a besoin de JavaScript pour afficher les horaires, les tronçons et les liens Plans. Active-le dans les réglages du navigateur (sur iPhone : Réglages → Apps → Safari → Avancé → JavaScript).</p></noscript>
 <div class="wrap">
 
 <header>
@@ -138,7 +141,7 @@ function raceTime(x, total){ // temps de course (min) au km x, arrêts inclus
   return t;
 }
 let START = 1440;
-try{ const v=+localStorage.getItem("stl-start"); if(v>=1410 && v<=1470) START=v; }catch(e){}
+try{ const v=+localStorage.getItem("stl-start"); if([1410,1425,1440,1455,1470].includes(v)) START=v; }catch(e){}
 
 const STOPS_LIST = [
   {type:"endpoint", tag:"Départ", name:"Saint-Étienne", place:"Parc des Expositions de Saint-Étienne", km:0, lat:45.45007, lon:4.39837,
