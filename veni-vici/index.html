@@ -3,6 +3,8 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'unsafe-inline'; style-src 'unsafe-inline' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; img-src 'self' data:; base-uri 'none'; form-action 'none'">
+<meta name="referrer" content="no-referrer">
 <meta name="description" content="Plan de course, profil, nutrition et prévision de temps pour la Veni Vici 52 km du 7 novembre 2026.">
 <title>Veni Vici 52 km 2026</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -168,6 +170,7 @@ tr.sel td{background:var(--ochre-soft)}
 </style>
 </head>
 <body>
+<noscript><p style="margin:16px;padding:12px 14px;border-radius:8px;background:#f6e7c4;color:#1b2733;font-family:system-ui,sans-serif">Cette page a besoin de JavaScript pour afficher les horaires, les tronçons et les liens Plans. Active-le dans les réglages du navigateur (sur iPhone : Réglages → Apps → Safari → Avancé → JavaScript).</p></noscript>
 <div class="wrap">
 
 <header class="bib" aria-label="Résumé de course">
@@ -333,7 +336,7 @@ const SCEN = {
   ambitieux:{label:"Ambitieux", total:375, txt:"Possible avec une bonne journée, mais sous 6h15 ta propre grille dit « trop rapide ». À ne pas chercher.", dec:"Sous 6h15 : retravailler la gestion d'allure."},
 };
 let scen = "cible";
-try{ const s=localStorage.getItem("vv-scen"); if(s && SCEN[s]) scen=s; }catch(e){}
+try{ const s=localStorage.getItem("vv-scen"); if(s && Object.prototype.hasOwnProperty.call(SCEN,s)) scen=s; }catch(e){}
 
 const fmtDur = m => { m=Math.round(m); return Math.floor(m/60)+"h"+String(m%60).padStart(2,"0"); };
 const fmtClock = m => { m=Math.round(m); return String(Math.floor(m/60)).padStart(2,"0")+"h"+String(m%60).padStart(2,"0"); };
@@ -472,7 +475,7 @@ function drawRav(){
 // ---------- Checklist ----------
 const BAG=["2 sachets boisson Naak 50 g (départ + R1)","1 sachet Naak Boost 60 g (R3), vérifié sans caféine","3 gels Naak (dont 1 de secours)","1 gaufre Naak","1 barre cajou-sel","1 barre Decathlon","2 compotes Decathlon","Gobelet souple","2 flasques 500 ml (1 à 1,5 L au départ)","Pastilles de sel si chaleur","Montre chargée, alertes cardio 150 / 160","Récup arrivée : boisson + glucides + protéines"];
 function drawCheck(){
-  let st={}; try{st=JSON.parse(localStorage.getItem("vv-bag")||"{}")}catch(e){}
+  let st={}; try{ const v=JSON.parse(localStorage.getItem("vv-bag")||"{}"); if(v && typeof v==="object" && !Array.isArray(v)) st=v; }catch(e){}
   const c=document.getElementById("check");
   c.innerHTML=BAG.map((b,i)=>`<label for="bag${i}"><input type="checkbox" id="bag${i}" ${st[i]?"checked":""}><span>${b}</span></label>`).join("");
   c.addEventListener("change",e=>{ const i=e.target.id.slice(3); st[i]=e.target.checked; try{localStorage.setItem("vv-bag",JSON.stringify(st))}catch(err){} });
