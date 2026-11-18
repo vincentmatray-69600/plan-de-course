@@ -8,3 +8,4 @@ Page assistance : https://vincentmatray-69600.github.io/plan-de-course/assistanc
 - `assistance.html` : points de rendez-vous, horaires et liens Plans pour l'assistance
 - `gpx/saintelyon_2026_80km.gpx` : trace SaintéLyon 2026
 - `veni-vici/` : archive du plan de la Veni Vici 52 km (et `gpx/la_veni_vici_2026_52km_officiel.gpx`)
+- `fond-ecran/` : fonds d'écran iPhone avec les temps de passage, un par vague de départ
